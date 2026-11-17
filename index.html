@@ -1,0 +1,2099 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Aventura Matemática de Sarah - Grado 6°</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <!-- html2canvas CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f3f0fa;
+            --card-bg: #ffffff;
+            --text-color: #241b35;
+            --text-muted: #5e5473;
+            --primary: #6a3de8;
+            --primary-hover: #532bc4;
+            --secondary: #1d4ed8;
+            --accent: #2563eb;
+            --accent-soft: #e0e7ff;
+            --purple-soft: #ede9fe;
+            --success: #0d9488;
+            --danger: #e11d48;
+            --warning: #d97706;
+            --border-color: #ddd6fe;
+            --shadow: 0 4px 18px rgba(106, 61, 232, 0.08);
+            --radius: 12px;
+            --font-main: 'Poppins', sans-serif;
+            --font-code: 'Fira Code', monospace;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #110e1b;
+            --card-bg: #1b172b;
+            --text-color: #f3f0ff;
+            --text-muted: #a69ec2;
+            --primary: #8b5cf6;
+            --primary-hover: #7c3aed;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --accent-soft: #1e293b;
+            --purple-soft: #282140;
+            --success: #2dd4bf;
+            --danger: #fb7185;
+            --warning: #fbbf24;
+            --border-color: #322a4d;
+            --shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 40px;
+        }
+
+        sup, sub {
+            font-size: 0.74em;
+            line-height: 0;
+            position: relative;
+            vertical-align: baseline;
+        }
+        sup { top: -0.52em; }
+        sub { bottom: -0.26em; }
+
+        /* Fracciones matemáticas limpias */
+        .frac {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            vertical-align: middle;
+            margin: 0 3px;
+            font-size: 0.92em;
+            line-height: 1.05;
+        }
+        .frac > span:first-child {
+            border-bottom: 1.5px solid currentColor;
+            padding: 0 4px 1px;
+        }
+        .frac > span:last-child {
+            padding: 1px 4px 0;
+        }
+
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.9rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h1 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .controls {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            font-family: var(--font-main);
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-hover), var(--secondary));
+            color: white;
+        }
+
+        nav.tabs-nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            padding: 0.5rem 1rem 0;
+            gap: 0.5rem;
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            font-family: var(--font-main);
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        main {
+            max-width: 1120px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.35rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .topic-card-home {
+            cursor: pointer;
+            margin-bottom: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .topic-card-home:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .accordion-item {
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            margin-bottom: 0.85rem;
+            overflow: hidden;
+            background-color: var(--card-bg);
+        }
+
+        .accordion-header {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background-color: rgba(106, 61, 232, 0.05);
+        }
+
+        .accordion-body {
+            padding: 0 1.25rem 1.25rem;
+            display: none;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1rem;
+        }
+
+        .accordion-item.active .accordion-body {
+            display: block;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.85rem;
+            margin-top: 1rem;
+        }
+
+        .example-box {
+            background-color: var(--bg-color);
+            border-left: 4px solid var(--accent);
+            padding: 0.9rem 1rem;
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-family: var(--font-main);
+            font-size: 0.94rem;
+        }
+
+        .math-code {
+            font-family: var(--font-main);
+            background-color: rgba(106, 61, 232, 0.12);
+            padding: 0.12rem 0.45rem;
+            border-radius: 5px;
+            font-weight: 600;
+            color: var(--primary);
+            display: inline-block;
+        }
+
+        .lab-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+            background-color: var(--bg-color);
+            padding: 1rem;
+            border-radius: var(--radius);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        .control-group label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+        }
+
+        .svg-container {
+            width: 100%;
+            height: 360px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--bg-color);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .quiz-card {
+            position: relative;
+        }
+
+        .quiz-question {
+            font-size: 1.08rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            line-height: 1.65;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .option-btn {
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            font-size: 1rem;
+        }
+
+        .option-btn:hover {
+            border-color: var(--primary);
+            background-color: rgba(106, 61, 232, 0.06);
+        }
+
+        .feedback {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            margin-top: 1rem;
+            font-weight: 600;
+            display: none;
+        }
+
+        .feedback.success {
+            display: block;
+            background-color: rgba(13, 148, 136, 0.15);
+            color: var(--success);
+            border: 1px solid var(--success);
+        }
+
+        .feedback.error {
+            display: block;
+            background-color: rgba(225, 29, 72, 0.15);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+
+        .sketchpad-container {
+            margin-top: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            overflow: hidden;
+            background-color: #ffffff;
+        }
+
+        .sketchpad-toolbar {
+            background-color: var(--bg-color);
+            padding: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tool-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0.3rem 0.6rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .tool-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .canvas-resize-wrapper {
+            position: relative;
+            width: 100%;
+            height: 240px;
+            min-height: 150px;
+            max-height: 750px;
+            background-color: #ffffff;
+        }
+
+        canvas.sketchpad {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+            touch-action: none;
+        }
+
+        .canvas-resize-handle {
+            width: 100%;
+            height: 18px;
+            background-color: var(--bg-color);
+            border-top: 1px solid var(--border-color);
+            cursor: ns-resize;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            user-select: none;
+            touch-action: none;
+        }
+
+        .canvas-resize-handle:hover {
+            background-color: rgba(106, 61, 232, 0.12);
+            color: var(--primary);
+        }
+
+        /* Hero Banner & Yubooh Sleeping Art */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2.2rem 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-text {
+            flex: 1;
+            min-width: 260px;
+        }
+
+        .hero-banner h2 {
+            font-size: 1.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .yubooh-card {
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            max-width: 230px;
+        }
+
+        .yubooh-caption {
+            font-size: 0.78rem;
+            color: #e0e7ff;
+            margin-top: 0.35rem;
+            font-style: italic;
+        }
+
+        .yubooh-badge-float {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--purple-soft);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 0.35rem 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        @keyframes floatZzz {
+            0%, 100% { transform: translateY(0px); opacity: 0.7; }
+            50% { transform: translateY(-5px); opacity: 1; }
+        }
+        .zzz-anim {
+            animation: floatZzz 2.6s ease-in-out infinite;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.65rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            background-color: var(--accent);
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .topic-tag {
+            font-size: 0.78rem;
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+            font-weight: 600;
+            background-color: rgba(106, 61, 232, 0.14);
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem; }
+            main { padding: 0 1rem; }
+            .hero-banner { padding: 1.5rem 1rem; }
+            .yubooh-card { max-width: 100%; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header & Navigation -->
+    <header>
+        <div class="logo-container">
+            <span class="logo-icon">🎨📐</span>
+            <h1>La Aventura Matemática de Sarah - Grado 6°</h1>
+        </div>
+        <div class="controls">
+            <button class="btn" id="langToggleBtn" onclick="toggleLanguage()">🌐 ES</button>
+            <button class="btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+        </div>
+    </header>
+
+    <nav class="tabs-nav">
+        <button class="tab-btn active" id="nav-inicio" onclick="switchTab('inicio', this)">🏠 <span data-i18n="tab_home">Inicio</span></button>
+        <button class="tab-btn" id="nav-teoria" onclick="switchTab('teoria', this)">📚 <span data-i18n="tab_theory">Teoría y Ejemplos</span></button>
+        <button class="tab-btn" id="nav-laboratorio" onclick="switchTab('laboratorio', this)">🧪 <span data-i18n="tab_lab">Laboratorio SVG</span></button>
+        <button class="tab-btn" id="nav-quiz" onclick="switchTab('quiz', this)">📝 <span data-i18n="tab_quiz">Práctica de Examen</span></button>
+    </nav>
+
+    <main>
+        <!-- TAB 1: INICIO -->
+        <section id="tab-inicio" class="tab-content active">
+            <div class="hero-banner">
+                <div class="hero-text">
+                    <span class="badge" data-i18n="grade_badge">Grado 6° • Matemáticas, Arte, Historia y Ciudadanía</span>
+                    <h2 data-i18n="welcome_title">¡Bienvenida, Sarah, a tu Aventura Matemática!</h2>
+                    <p data-i18n="welcome_subtitle">Explora los números naturales, decimales, fracciones, porcentajes y geometría a través del arte, la historia, el análisis de datos y las decisiones financieras inteligentes.</p>
+                </div>
+                <!-- Ilustración SVG decorativa: Mientras Yubooh duerme -->
+                <div class="yubooh-card">
+                    <svg width="175" height="115" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Luna y estrellas -->
+                        <path d="M25 22 A12 12 0 1 0 38 35 A10 10 0 1 1 25 22 Z" fill="#fde047"/>
+                        <circle cx="152" cy="24" r="2" fill="#e0e7ff"/>
+                        <circle cx="138" cy="16" r="1.5" fill="#fde047"/>
+                        <!-- Cojín morado -->
+                        <ellipse cx="90" cy="96" rx="68" ry="16" fill="#4c1d95" stroke="#a78bfa" stroke-width="2"/>
+                        <!-- Cuerpo dormido de Yubooh (criatura esponjosa azul-lavanda) -->
+                        <ellipse cx="90" cy="78" rx="44" ry="25" fill="#93c5fd" stroke="#3b82f6" stroke-width="2"/>
+                        <!-- Orejitas relajadas -->
+                        <ellipse cx="58" cy="58" rx="9" ry="15" transform="rotate(-25 58 58)" fill="#a78bfa" stroke="#6d28d9" stroke-width="1.8"/>
+                        <ellipse cx="122" cy="58" rx="9" ry="15" transform="rotate(25 122 58)" fill="#a78bfa" stroke="#6d28d9" stroke-width="1.8"/>
+                        <!-- Mejillas rosadas -->
+                        <ellipse cx="68" cy="78" rx="6" ry="3.5" fill="#f472b6" opacity="0.65"/>
+                        <ellipse cx="112" cy="78" rx="6" ry="3.5" fill="#f472b6" opacity="0.65"/>
+                        <!-- Ojos cerrados durmiendo -->
+                        <path d="M72 72 Q78 77 84 72" fill="none" stroke="#1e1b4b" stroke-width="2.3" stroke-linecap="round"/>
+                        <path d="M96 72 Q102 77 108 72" fill="none" stroke="#1e1b4b" stroke-width="2.3" stroke-linecap="round"/>
+                        <!-- Boquita tranquila -->
+                        <path d="M87 81 Q90 84 93 81" fill="none" stroke="#1e1b4b" stroke-width="2" stroke-linecap="round"/>
+                        <!-- Patitas -->
+                        <ellipse cx="68" cy="94" rx="10" ry="5" fill="#bfdbfe"/>
+                        <ellipse cx="112" cy="94" rx="10" ry="5" fill="#bfdbfe"/>
+                        <!-- Zzz flotantes -->
+                        <g class="zzz-anim" fill="#fde047" font-family="Poppins, sans-serif" font-weight="700">
+                            <text x="126" y="46" font-size="11">z</text>
+                            <text x="136" y="36" font-size="14">z</text>
+                            <text x="148" y="25" font-size="17">Z</text>
+                        </g>
+                    </svg>
+                    <div class="yubooh-caption" data-i18n="yubooh_sleep">Mientras Yubooh duerme, ¡tú conquistas las matemáticas!</div>
+                </div>
+            </div>
+
+            <div class="grid-3">
+                <div class="card topic-card-home" onclick="openTopicFromHome(1)">
+                    <h3>🔢 <span data-i18n="card_1_title">Tema 1: Números Naturales</span></h3>
+                    <p data-i18n="card_1_desc">Suma, resta, multiplicación y división de números naturales en contextos históricos, artísticos y financieros.</p>
+                </div>
+                <div class="card topic-card-home" onclick="openTopicFromHome(2)">
+                    <h3>💧 <span data-i18n="card_2_title">Tema 2: Números Decimales</span></h3>
+                    <p data-i18n="card_2_desc">Suma, resta, multiplicación y división de números decimales en presupuestos, mediciones y análisis de datos.</p>
+                </div>
+                <div class="card topic-card-home" onclick="openTopicFromHome(3)">
+                    <h3>🍕 <span data-i18n="card_3_title">Tema 3: Operaciones con Fracciones</span></h3>
+                    <p data-i18n="card_3_desc">Suma, resta, multiplicación y división de fracciones homogéneas y heterogéneas.</p>
+                </div>
+                <div class="card topic-card-home" onclick="openTopicFromHome(4)">
+                    <h3>🎯 <span data-i18n="card_4_title">Tema 4: Fracción de un Número</span></h3>
+                    <p data-i18n="card_4_desc">Cálculo de partes proporcionales de una cantidad total en proyectos culturales y ahorro.</p>
+                </div>
+                <div class="card topic-card-home" onclick="openTopicFromHome(5)">
+                    <h3>🔄 <span data-i18n="card_5_title">Tema 5: Decimal y Porcentaje</span></h3>
+                    <p data-i18n="card_5_desc">Conversión bidireccional entre números decimales, fracciones centesimales y porcentajes.</p>
+                </div>
+                <div class="card topic-card-home" onclick="openTopicFromHome(6)">
+                    <h3>📊 <span data-i18n="card_6_title">Tema 6: Porcentajes Aplicados</span></h3>
+                    <p data-i18n="card_6_desc">Problemas básicos con porcentajes: descuentos, impuestos, encuestas ciudadanas e indicadores.</p>
+                </div>
+                <div class="card topic-card-home" onclick="openTopicFromHome(7)">
+                    <h3>📐 <span data-i18n="card_7_title">Tema 7: Áreas Planas y Superficiales</span></h3>
+                    <p data-i18n="card_7_desc">Áreas de triángulos, rectángulos, cuadrados, círculos y rombos; áreas superficiales de cajas y prismas.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.5rem;">
+                    <h3 data-i18n="goals_title">🎯 Metas Curriculares de Aprendizaje — Grado 6°</h3>
+                    <span class="yubooh-badge-float">💤 Yubooh Mode: Calma y Concentración</span>
+                </div>
+                <ul style="margin-left: 1.5rem; margin-top: 0.75rem;" id="goals-list"></ul>
+            </div>
+        </section>
+
+        <!-- TAB 2: TEORÍA Y EJEMPLOS -->
+        <section id="tab-teoria" class="tab-content">
+            <div class="card" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                <div>
+                    <h2 data-i18n="theory_header">Guía Teórica y Ejemplos Paso a Paso (Grado 6°)</h2>
+                    <p data-i18n="theory_sub">Haz clic en cada uno de los 7 temas para explorar los conceptos clave y estudiar 3 ejemplos detallados por tema.</p>
+                </div>
+                <!-- Mini Yubooh durmiendo en la esquina -->
+                <div style="display:flex; align-items:center; gap:0.6rem; background:var(--purple-soft); padding:0.5rem 0.9rem; border-radius:12px; border:1px solid var(--border-color);">
+                    <svg width="54" height="38" viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+                        <ellipse cx="90" cy="96" rx="68" ry="16" fill="#6a3de8"/>
+                        <ellipse cx="90" cy="78" rx="44" ry="25" fill="#93c5fd" stroke="#2563eb" stroke-width="3"/>
+                        <path d="M72 72 Q78 77 84 72" fill="none" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M96 72 Q102 77 108 72" fill="none" stroke="#1e1b4b" stroke-width="3" stroke-linecap="round"/>
+                        <text x="132" y="38" fill="#6a3de8" font-size="22" font-weight="700">zZ</text>
+                    </svg>
+                    <span style="font-size:0.82rem; font-weight:600; color:var(--primary);" data-i18n="yubooh_study">Yubooh descansa mientras tú aprendes</span>
+                </div>
+            </div>
+
+            <div id="accordion-container"></div>
+        </section>
+
+        <!-- TAB 3: LABORATORIO SVG -->
+        <section id="tab-laboratorio" class="tab-content">
+            <div class="card">
+                <h2 data-i18n="lab_header">Laboratorio Interactivo SVG — Arte, Proporciones y Geometría</h2>
+                <p data-i18n="lab_sub">Manipula los controles deslizantes para visualizar fracciones, equivalencias decimal-porcentaje y áreas de figuras y prismas.</p>
+                
+                <div style="margin-top: 1rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button class="btn btn-primary" onclick="setLabMode('plane_areas')" data-i18n="lab_mode_areas">📐 Áreas de Figuras Planas</button>
+                    <button class="btn" onclick="setLabMode('prism_surface')" data-i18n="lab_mode_prism">📦 Área Superficial de Caja/Prisma</button>
+                    <button class="btn" onclick="setLabMode('fraction_percent')" data-i18n="lab_mode_frac">🎨 Fracciones, Decimales y %</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="lab-controls" id="lab-controls"></div>
+                <div class="svg-container">
+                    <svg id="svg-lab-viewport" width="100%" height="100%" viewBox="0 0 600 360"></svg>
+                </div>
+                <div id="lab-metrics" style="margin-top: 1rem; font-weight: 600; text-align: center; font-size: 1.05rem;"></div>
+            </div>
+        </section>
+
+        <!-- TAB 4: PRÁCTICA DE EXAMEN (QUIZ) -->
+        <section id="tab-quiz" class="tab-content">
+            <div class="card" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <h2 data-i18n="quiz_header">Retos de Pensamiento Crítico, Arte, Historia y Finanzas</h2>
+                    <p data-i18n="quiz_sub">Analiza cada situación sin pistas operativas. Usa la pizarra vectorial para tus trazos, esquemas y cálculos.</p>
+                </div>
+                <button class="btn btn-primary" onclick="generateQuiz()"><span data-i18n="btn_regenerate">🔄 Generar Nuevos Modelos / Preguntas</span></button>
+            </div>
+
+            <div id="quiz-container"></div>
+        </section>
+    </main>
+
+    <script>
+        /* ==========================================================================
+           1. ESTADO GLOBAL E IDIOMAS
+           ========================================================================== */
+        let currentLang = localStorage.getItem('sarah_lang') || 'ES';
+        let currentTheme = localStorage.getItem('sarah_theme') || 'light';
+        let currentLabMode = 'plane_areas';
+
+        const i18n = {
+            ES: {
+                tab_home: "Inicio",
+                tab_theory: "Teoría y Ejemplos",
+                tab_lab: "Laboratorio SVG",
+                tab_quiz: "Práctica de Examen",
+                grade_badge: "Grado 6° • Matemáticas, Arte, Historia y Ciudadanía",
+                welcome_title: "¡Bienvenida, Sarah, a tu Aventura Matemática!",
+                welcome_subtitle: "Explora los números naturales, decimales, fracciones, porcentajes y geometría a través del arte, la historia, el análisis de datos y las decisiones financieras inteligentes.",
+                yubooh_sleep: "Mientras Yubooh duerme, ¡tú conquistas las matemáticas!",
+                yubooh_study: "Yubooh descansa mientras tú aprendes",
+                card_1_title: "Tema 1: Números Naturales",
+                card_1_desc: "Suma, resta, multiplicación y división de números naturales en contextos históricos, artísticos y financieros.",
+                card_2_title: "Tema 2: Números Decimales",
+                card_2_desc: "Suma, resta, multiplicación y división de números decimales en presupuestos, mediciones y análisis de datos.",
+                card_3_title: "Tema 3: Operaciones con Fracciones",
+                card_3_desc: "Suma, resta, multiplicación y división de fracciones homogéneas y heterogéneas.",
+                card_4_title: "Tema 4: Fracción de un Número",
+                card_4_desc: "Cálculo de partes proporcionales de una cantidad total en proyectos culturales y ahorro.",
+                card_5_title: "Tema 5: Decimal y Porcentaje",
+                card_5_desc: "Conversión bidireccional entre números decimales, fracciones centesimales y porcentajes.",
+                card_6_title: "Tema 6: Porcentajes Aplicados",
+                card_6_desc: "Problemas básicos con porcentajes: descuentos, impuestos, encuestas ciudadanas e indicadores.",
+                card_7_title: "Tema 7: Áreas Planas y Superficiales",
+                card_7_desc: "Áreas de triángulos, rectángulos, cuadrados, círculos y rombos; áreas superficiales de cajas y prismas.",
+                goals_title: "🎯 Metas Curriculares de Aprendizaje — Grado 6°",
+                theory_header: "Guía Teórica y Ejemplos Paso a Paso (Grado 6°)",
+                theory_sub: "Haz clic en cada uno de los 7 temas para explorar los conceptos clave y estudiar 3 ejemplos detallados por tema.",
+                lab_header: "Laboratorio Interactivo SVG — Arte, Proporciones y Geometría",
+                lab_sub: "Manipula los controles deslizantes para visualizar fracciones, equivalencias decimal-porcentaje y áreas de figuras y prismas.",
+                lab_mode_areas: "📐 Áreas de Figuras Planas",
+                lab_mode_prism: "📦 Área Superficial de Caja/Prisma",
+                lab_mode_frac: "🎨 Fracciones, Decimales y %",
+                quiz_header: "Retos de Pensamiento Crítico, Arte, Historia y Finanzas",
+                quiz_sub: "Analiza cada situación sin pistas operativas. Usa la pizarra vectorial para tus trazos, esquemas y cálculos.",
+                btn_regenerate: "🔄 Generar Nuevos Modelos / Preguntas",
+                correct_msg: "¡Excelente análisis, Sarah! Respuesta correcta. 🎉",
+                incorrect_msg: "Respuesta incorrecta. Revisa tus procedimientos y vuelve a intentarlo.",
+                sketch_pencil: "✏️ Pincel",
+                sketch_line: "📏 Línea",
+                sketch_rect: "⬛ Rectángulo",
+                sketch_eraser: "🧹 Borrador Inteligente",
+                sketch_clear: "🗑️ Limpiar Pizarra",
+                sketch_copy: "📋 Copiar Captura",
+                sketch_download: "💾 Descargar Imagen",
+                resize_label: "↕ Arrastra para ajustar altura del lienzo"
+            },
+            EN: {
+                tab_home: "Home",
+                tab_theory: "Theory & Examples",
+                tab_lab: "SVG Laboratory",
+                tab_quiz: "Exam Practice",
+                grade_badge: "6th Grade • Math, Art, History & Citizenship",
+                welcome_title: "Welcome, Sarah, to your Math Adventure!",
+                welcome_subtitle: "Explore natural numbers, decimals, fractions, percentages, and geometry through art, history, data analysis, and smart financial decisions.",
+                yubooh_sleep: "While Yubooh sleeps, you conquer mathematics!",
+                yubooh_study: "Yubooh rests peacefully while you study",
+                card_1_title: "Topic 1: Natural Numbers",
+                card_1_desc: "Addition, subtraction, multiplication, and division of natural numbers in historical, artistic, and financial contexts.",
+                card_2_title: "Topic 2: Decimal Numbers",
+                card_2_desc: "Addition, subtraction, multiplication, and division of decimals in budgets, measurements, and data analysis.",
+                card_3_title: "Topic 3: Fraction Operations",
+                card_3_desc: "Addition, subtraction, multiplication, and division of like and unlike fractions.",
+                card_4_title: "Topic 4: Fraction of a Number",
+                card_4_desc: "Computing proportional parts of a total quantity in cultural projects and savings.",
+                card_5_title: "Topic 5: Decimal & Percentage",
+                card_5_desc: "Two-way conversion between decimals, hundredth fractions, and percentages.",
+                card_6_title: "Topic 6: Applied Percentages",
+                card_6_desc: "Basic percentage problems: discounts, taxes, civic surveys, and indicators.",
+                card_7_title: "Topic 7: Plane & Surface Areas",
+                card_7_desc: "Areas of triangles, rectangles, squares, circles, and rhombuses; surface areas of boxes and prisms.",
+                goals_title: "🎯 Curriculum Learning Goals — 6th Grade",
+                theory_header: "Theory Guide & Step-by-Step Examples (6th Grade)",
+                theory_sub: "Click each of the 7 topics to explore core concepts and study 3 detailed examples per topic.",
+                lab_header: "Interactive SVG Lab — Art, Proportions & Geometry",
+                lab_sub: "Adjust sliders to visualize fractions, decimal-percentage equivalents, and plane/prism areas.",
+                lab_mode_areas: "📐 Plane Figure Areas",
+                lab_mode_prism: "📦 Box/Prism Surface Area",
+                lab_mode_frac: "🎨 Fractions, Decimals & %",
+                quiz_header: "Critical Thinking Challenges: Art, History & Finance",
+                quiz_sub: "Analyze each situation without operational hints. Use the vector sketchpad for diagrams and calculations.",
+                btn_regenerate: "🔄 Generate New Models / Questions",
+                correct_msg: "Excellent analysis, Sarah! Correct answer. 🎉",
+                incorrect_msg: "Incorrect answer. Review your steps and try again.",
+                sketch_pencil: "✏️ Pencil",
+                sketch_line: "📏 Line",
+                sketch_rect: "⬛ Rectangle",
+                sketch_eraser: "🧹 Smart Eraser",
+                sketch_clear: "🗑️ Clear Canvas",
+                sketch_copy: "📋 Copy Shot",
+                sketch_download: "💾 Download Image",
+                resize_label: "↕ Drag to resize canvas height"
+            }
+        };
+
+        const goalsData = {
+            ES: [
+                "Resolver situaciones con las cuatro operaciones básicas en los números naturales (ℕ), interpretando residuos y magnitudes en historia, arte y finanzas.",
+                "Operar con precisión números decimales en presupuestos personales, mediciones artísticas y análisis de indicadores públicos.",
+                "Efectuar adiciones, sustracciones, multiplicaciones y divisiones entre fracciones aplicando equivalencias y simplificación.",
+                "Calcular la fracción de una cantidad total para distribuir recursos, tiempos y presupuestos de manera equitativa.",
+                "Convertir con fluidez números decimales a porcentajes y viceversa para leer gráficos, encuestas e informes estadísticos.",
+                "Resolver problemas cotidianos con porcentajes fortaleciendo el consumo responsable y la participación ciudadana informada.",
+                "Determinar áreas de triángulos, rectángulos, cuadrados, círculos y rombos, así como áreas superficiales de cajas y prismas rectos."
+            ],
+            EN: [
+                "Solve situations involving the four basic operations with natural numbers (ℕ), interpreting remainders and magnitudes in history, art, and finance.",
+                "Operate accurately with decimal numbers in personal budgets, artistic measurements, and public data analysis.",
+                "Perform addition, subtraction, multiplication, and division with fractions using equivalence and simplification.",
+                "Calculate a fraction of a total quantity to allocate resources, time, and budgets equitably.",
+                "Fluently convert decimals to percentages and vice versa to read charts, polls, and statistical reports.",
+                "Solve everyday percentage problems to strengthen responsible consumption and informed citizenship.",
+                "Determine areas of triangles, rectangles, squares, circles, and rhombuses, plus surface areas of boxes and right prisms."
+            ]
+        };
+
+        /* Helper para escribir fracciones convencionales apiladas (nunca AsciiMath ni LaTeX) */
+        function fracHTML(num, den) {
+            return `<span class="frac"><span>${num}</span><span>${den}</span></span>`;
+        }
+
+        /* ==========================================================================
+           2. TEORÍA Y 3 EJEMPLOS POR CADA UNO DE LOS 7 TEMAS (NOTACIÓN MATEMÁTICA)
+           ========================================================================== */
+        const theoryData = [
+            {
+                id: 1,
+                title: { ES: "Tema 1: Suma, resta, multiplicación y división de números naturales", EN: "Topic 1: Addition, subtraction, multiplication & division of natural numbers" },
+                content: {
+                    ES: `Los <strong>números naturales (ℕ = {0, 1, 2, 3, ...})</strong> permiten contar elementos, medir intervalos históricos y administrar recursos.<br>
+                    • <strong>Adición y sustracción:</strong> Agrupan cantidades o hallan diferencias entre dos magnitudes.<br>
+                    • <strong>Multiplicación:</strong> Suma abreviada de sumandos iguales (<span class="math-code">a × b</span>).<br>
+                    • <strong>División exacta y entera:</strong> Reparte un dividendo (<em>D</em>) entre un divisor (<em>d</em>) obteniendo un cociente (<em>c</em>) y un residuo (<em>r</em>), cumpliéndose que <span class="math-code">D = d × c + r</span>, con <span class="math-code">0 ≤ r &lt; d</span>.`,
+                    EN: `<strong>Natural numbers (ℕ = {0, 1, 2, 3, ...})</strong> allow us to count items, measure historical spans, and manage resources.<br>
+                    • <strong>Addition & subtraction:</strong> Combine quantities or find differences between two amounts.<br>
+                    • <strong>Multiplication:</strong> Repeated addition of equal groups (<span class="math-code">a × b</span>).<br>
+                    • <strong>Division:</strong> Splits a dividend (<em>D</em>) by a divisor (<em>d</em>) yielding a quotient (<em>c</em>) and remainder (<em>r</em>), satisfying <span class="math-code">D = d × c + r</span>, with <span class="math-code">0 ≤ r &lt; d</span>.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Historia del Arte):</strong> La construcción de una catedral gótica comenzó en el año <span class="math-code">1 163</span> y su fachada principal se terminó en <span class="math-code">1 345</span>. ¿Cuántos años transcurrieron?<br>
+                        <em>Solución:</em> Calculamos la diferencia entre ambas fechas: <span class="math-code">1 345 − 1 163 = 182</span> años.`,
+                        EN: `<strong>Example 1 (Art History):</strong> Construction of a Gothic cathedral began in <span class="math-code">1 163</span> and its main facade was completed in <span class="math-code">1 345</span>. How many years passed?<br>
+                        <em>Solution:</em> Find the difference: <span class="math-code">1 345 − 1 163 = 182</span> years.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Presupuesto de taller artístico):</strong> Para una exposición escolar se compran <span class="math-code">14</span> lienzos a <span class="math-code">$18 500</span> cada uno y se dispone de un fondo de <span class="math-code">$300 000</span>. ¿Cuánto dinero sobra?<br>
+                        <em>Solución:</em> Costo total: <span class="math-code">14 × 18 500 = $259 000</span>. Sobrante: <span class="math-code">300 000 − 259 000 = $41 000</span>.`,
+                        EN: `<strong>Example 2 (Art workshop budget):</strong> For a school exhibit, <span class="math-code">14</span> canvases are bought at <span class="math-code">$18 500</span> each from a <span class="math-code">$300 000</span> fund. How much remains?<br>
+                        <em>Solution:</em> Total cost: <span class="math-code">14 × 18 500 = $259 000</span>. Remaining: <span class="math-code">300 000 − 259 000 = $41 000</span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (Archivo histórico y agrupación):</strong> Un museo digitaliza <span class="math-code">1 475</span> fotografías antiguas y las guarda en álbumes de <span class="math-code">24</span> fotos cada uno. ¿Cuántos álbumes se llenan completamente y cuántas fotos quedan sueltas?<br>
+                        <em>Solución:</em> Al dividir <span class="math-code">1 475 ÷ 24</span>, el cociente es <span class="math-code">61</span> y el residuo es <span class="math-code">11</span> (porque <span class="math-code">24 × 61 + 11 = 1 475</span>). Se llenan <strong>61 álbumes</strong> y quedan <strong>11 fotos</strong>.`,
+                        EN: `<strong>Example 3 (Historical archive):</strong> A museum digitizes <span class="math-code">1 475</span> old photographs into albums of <span class="math-code">24</span> photos each. How many albums are full and how many photos remain?<br>
+                        <em>Solution:</em> Dividing <span class="math-code">1 475 ÷ 24</span> gives quotient <span class="math-code">61</span> and remainder <span class="math-code">11</span> (<span class="math-code">24 × 61 + 11 = 1 475</span>). <strong>61 full albums</strong> and <strong>11 photos</strong> left.`
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: { ES: "Tema 2: Suma, resta, multiplicación y división de números decimales", EN: "Topic 2: Addition, subtraction, multiplication & division of decimals" },
+                content: {
+                    ES: `Los <strong>números decimales</strong> representan unidades completas y fracciones decimales (décimas, centésimas, milésimas).<br>
+                    • <strong>Suma y resta:</strong> Se alinean verticalmente los puntos decimales (completando con ceros a la derecha si hace falta).<br>
+                    • <strong>Multiplicación:</strong> Se multiplican como naturales y el resultado lleva tantas cifras decimales como la suma de las cifras decimales de los factores.<br>
+                    • <strong>División:</strong> Si el divisor es decimal, se multiplican dividendo y divisor por <span class="math-code">10, 100, 1 000...</span> para convertir el divisor en natural.`,
+                    EN: `<strong>Decimal numbers</strong> represent whole units and decimal parts (tenths, hundredths, thousandths).<br>
+                    • <strong>Addition & subtraction:</strong> Align decimal points vertically (padding trailing zeros if needed).<br>
+                    • <strong>Multiplication:</strong> Multiply as whole numbers and place the decimal point so the product has the sum of decimal places of the factors.<br>
+                    • <strong>Division:</strong> If the divisor has decimals, multiply both dividend and divisor by <span class="math-code">10, 100, 1 000...</span> to make the divisor a whole number.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Suma y resta en finanzas personales):</strong> Sarah ahorró <span class="math-code">45.75</span> dólares en enero y <span class="math-code">38.50</span> en febrero. Si compró un set de acuarelas por <span class="math-code">29.85</span>, ¿cuánto le queda?<br>
+                        <em>Solución:</em> Total ahorrado: <span class="math-code">45.75 + 38.50 = 84.25</span>. Saldo final: <span class="math-code">84.25 − 29.85 = 54.40</span> dólares.`,
+                        EN: `<strong>Example 1 (Personal finance):</strong> Sarah saved <span class="math-code">45.75</span> dollars in January and <span class="math-code">38.50</span> in February. After buying watercolors for <span class="math-code">29.85</span>, how much is left?<br>
+                        <em>Solution:</em> Total saved: <span class="math-code">45.75 + 38.50 = 84.25</span>. Final balance: <span class="math-code">84.25 − 29.85 = 54.40</span> dollars.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Multiplicación en restauración artística):</strong> Un restaurador aplica <span class="math-code">0.35</span> litros de barniz protector por cada metro cuadrado de mural. Si el mural mide <span class="math-code">12.4</span> m<sup>2</sup>, ¿cuánto barniz necesita?<br>
+                        <em>Solución:</em> <span class="math-code">12.4 × 0.35 = 4.34</span> litros (3 cifras decimales en total: <span class="math-code">4.340 = 4.34</span>).`,
+                        EN: `<strong>Example 2 (Art restoration):</strong> A restorer uses <span class="math-code">0.35</span> liters of protective varnish per square meter of mural. For a <span class="math-code">12.4</span> m<sup>2</sup> mural, how much varnish is needed?<br>
+                        <em>Solution:</em> <span class="math-code">12.4 × 0.35 = 4.34</span> liters.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (División en análisis ambiental):</strong> Una comunidad recolectó <span class="math-code">18.9</span> kg de papel reciclado y los empacó en paquetes de <span class="math-code">0.45</span> kg cada uno. ¿Cuántos paquetes obtuvo?<br>
+                        <em>Solución:</em> Multiplicamos ambos términos por <span class="math-code">100</span>: <span class="math-code">1 890 ÷ 45 = 42</span> paquetes.`,
+                        EN: `<strong>Example 3 (Environmental data):</strong> A community collected <span class="math-code">18.9</span> kg of recycled paper into bundles of <span class="math-code">0.45</span> kg each. How many bundles were made?<br>
+                        <em>Solution:</em> Multiply both by <span class="math-code">100</span>: <span class="math-code">1 890 ÷ 45 = 42</span> bundles.`
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: { ES: "Tema 3: Suma, resta, multiplicación y división de fracciones", EN: "Topic 3: Addition, subtraction, multiplication & division of fractions" },
+                content: {
+                    ES: `Una fracción ${fracHTML('a', 'b')} (con <span class="math-code">b ≠ 0</span>) expresa partes iguales de una unidad.<br>
+                    • <strong>Suma y resta:</strong> Con igual denominador se operan los numeradores; con distinto denominador se buscan fracciones equivalentes usando el mínimo común múltiplo.<br>
+                    • <strong>Multiplicación:</strong> Se multiplican numeradores entre sí y denominadores entre sí: ${fracHTML('a', 'b')} × ${fracHTML('c', 'd')} = ${fracHTML('a × c', 'b × d')}.<br>
+                    • <strong>División:</strong> Se multiplica la primera fracción por el inverso multiplicativo de la segunda: ${fracHTML('a', 'b')} ÷ ${fracHTML('c', 'd')} = ${fracHTML('a', 'b')} × ${fracHTML('d', 'c')}.`,
+                    EN: `A fraction ${fracHTML('a', 'b')} (with <span class="math-code">b ≠ 0</span>) expresses equal parts of a whole.<br>
+                    • <strong>Addition & subtraction:</strong> With like denominators, operate numerators; with unlike denominators, find equivalent fractions using the least common denominator.<br>
+                    • <strong>Multiplication:</strong> Multiply numerators together and denominators together: ${fracHTML('a', 'b')} × ${fracHTML('c', 'd')} = ${fracHTML('a × c', 'b × d')}.<br>
+                    • <strong>Division:</strong> Multiply the first fraction by the reciprocal of the second: ${fracHTML('a', 'b')} ÷ ${fracHTML('c', 'd')} = ${fracHTML('a', 'b')} × ${fracHTML('d', 'c')}.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Suma y resta de heterogéneas):</strong> En un mural colectivo, los estudiantes pintaron ${fracHTML('2', '5')} el lunes y ${fracHTML('1', '3')} el martes. ¿Qué fracción del mural falta por pintar?<br>
+                        <em>Solución:</em> Pintado: ${fracHTML('2', '5')} + ${fracHTML('1', '3')} = ${fracHTML('6', '15')} + ${fracHTML('5', '15')} = ${fracHTML('11', '15')}. Falta: <span class="math-code">1 − </span>${fracHTML('11', '15')} = ${fracHTML('4', '15')}.`,
+                        EN: `<strong>Example 1 (Adding & subtracting unlike fractions):</strong> On a community mural, students painted ${fracHTML('2', '5')} on Monday and ${fracHTML('1', '3')} on Tuesday. What fraction remains unpainted?<br>
+                        <em>Solution:</em> Painted: ${fracHTML('2', '5')} + ${fracHTML('1', '3')} = ${fracHTML('6', '15')} + ${fracHTML('5', '15')} = ${fracHTML('11', '15')}. Remaining: <span class="math-code">1 − </span>${fracHTML('11', '15')} = ${fracHTML('4', '15')}.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Multiplicación de fracciones):</strong> Un lienzo rectangular mide ${fracHTML('3', '4')} m de ancho y ${fracHTML('2', '3')} m de alto. ¿Cuál es su área?<br>
+                        <em>Solución:</em> ${fracHTML('3', '4')} × ${fracHTML('2', '3')} = ${fracHTML('6', '12')} = ${fracHTML('1', '2')} m<sup>2</sup>.`,
+                        EN: `<strong>Example 2 (Multiplying fractions):</strong> A rectangular canvas measures ${fracHTML('3', '4')} m wide by ${fracHTML('2', '3')} m high. What is its area?<br>
+                        <em>Solution:</em> ${fracHTML('3', '4')} × ${fracHTML('2', '3')} = ${fracHTML('6', '12')} = ${fracHTML('1', '2')} m<sup>2</sup>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (División de fracciones):</strong> Se tienen ${fracHTML('9', '4')} litros de tinta caligráfica para repartir en frascos de ${fracHTML('3', '8')} de litro cada uno. ¿Cuántos frascos se llenan?<br>
+                        <em>Solución:</em> ${fracHTML('9', '4')} ÷ ${fracHTML('3', '8')} = ${fracHTML('9', '4')} × ${fracHTML('8', '3')} = ${fracHTML('72', '12')} = <span class="math-code">6</span> frascos.`,
+                        EN: `<strong>Example 3 (Dividing fractions):</strong> We have ${fracHTML('9', '4')} liters of calligraphy ink to pour into bottles of ${fracHTML('3', '8')} liter each. How many bottles can be filled?<br>
+                        <em>Solution:</em> ${fracHTML('9', '4')} ÷ ${fracHTML('3', '8')} = ${fracHTML('9', '4')} × ${fracHTML('8', '3')} = ${fracHTML('72', '12')} = <span class="math-code">6</span> bottles.`
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: { ES: "Tema 4: Fracción de un número", EN: "Topic 4: Fraction of a number" },
+                content: {
+                    ES: `Calcular la <strong>fracción de un número</strong> (${fracHTML('a', 'b')} de <em>N</em>) significa dividir la cantidad total <em>N</em> en <em>b</em> partes iguales y tomar <em>a</em> de esas partes:<br>
+                    <span class="math-code">${fracHTML('a', 'b')} de N = (N ÷ b) × a = ${fracHTML('a × N', 'b')}</span>.`,
+                    EN: `Computing the <strong>fraction of a number</strong> (${fracHTML('a', 'b')} of <em>N</em>) means dividing the total amount <em>N</em> into <em>b</em> equal parts and taking <em>a</em> of those parts:<br>
+                    <span class="math-code">${fracHTML('a', 'b')} of N = (N ÷ b) × a = ${fracHTML('a × N', 'b')}</span>.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Colección de museo):</strong> Un museo tiene <span class="math-code">480</span> obras de arte en su archivo y exhibe ${fracHTML('3', '8')} de ellas en las salas principales. ¿Cuántas obras están exhibidas?<br>
+                        <em>Solución:</em> <span class="math-code">(480 ÷ 8) × 3 = 60 × 3 = 180</span> obras.`,
+                        EN: `<strong>Example 1 (Museum collection):</strong> A museum holds <span class="math-code">480</span> artworks in its archive and displays ${fracHTML('3', '8')} of them in main galleries. How many artworks are on display?<br>
+                        <em>Solution:</em> <span class="math-code">(480 ÷ 8) × 3 = 60 × 3 = 180</span> artworks.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Presupuesto participativo):</strong> El consejo estudiantil recibió <span class="math-code">$750 000</span> y decidió destinar ${fracHTML('2', '5')} a libros de historia y el resto a instrumentos musicales. ¿Cuánto dinero va para música?<br>
+                        <em>Solución:</em> Libros: <span class="math-code">(750 000 ÷ 5) × 2 = $300 000</span>. Música: <span class="math-code">750 000 − 300 000 = $450 000</span> (equivalente a ${fracHTML('3', '5')}).`,
+                        EN: `<strong>Example 2 (Student council budget):</strong> The student council received <span class="math-code">$750 000</span> and allocated ${fracHTML('2', '5')} to history books and the rest to musical instruments. How much goes to music?<br>
+                        <em>Solution:</em> Books: <span class="math-code">(750 000 ÷ 5) × 2 = $300 000</span>. Music: <span class="math-code">750 000 − 300 000 = $450 000</span> (${fracHTML('3', '5')}).`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (Duración histórica):</strong> El Imperio Romano de Occidente duró aproximadamente <span class="math-code">500</span> años. Si una dinastía gobernó durante ${fracHTML('3', '20')} de ese periodo, ¿cuántos años gobernó?<br>
+                        <em>Solución:</em> <span class="math-code">(500 ÷ 20) × 3 = 25 × 3 = 75</span> años.`,
+                        EN: `<strong>Example 3 (Historical span):</strong> The Western Roman Empire lasted about <span class="math-code">500</span> years. If a dynasty ruled for ${fracHTML('3', '20')} of that time, how many years did it rule?<br>
+                        <em>Solution:</em> <span class="math-code">(500 ÷ 20) × 3 = 25 × 3 = 75</span> years.`
+                    }
+                ]
+            },
+            {
+                id: 5,
+                title: { ES: "Tema 5: Conversión decimal-porcentaje", EN: "Topic 5: Decimal-percentage conversion" },
+                content: {
+                    ES: `Un <strong>porcentaje (%)</strong> indica cuántas partes se toman de cada <span class="math-code">100</span> (<span class="math-code">p% = ${fracHTML('p', '100')}</span>).<br>
+                    • <strong>De decimal a porcentaje:</strong> Se multiplica el número decimal por <span class="math-code">100</span> (desplazando el punto decimal dos lugares a la derecha) y se añade el símbolo <span class="math-code">%</span>.<br>
+                    • <strong>De porcentaje a decimal:</strong> Se divide el porcentaje entre <span class="math-code">100</span> (desplazando el punto decimal dos lugares a la izquierda) y se elimina el símbolo <span class="math-code">%</span>.`,
+                    EN: `A <strong>percentage (%)</strong> expresses parts per <span class="math-code">100</span> (<span class="math-code">p% = ${fracHTML('p', '100')}</span>).<br>
+                    • <strong>Decimal to percentage:</strong> Multiply the decimal by <span class="math-code">100</span> (move the decimal point two places right) and attach <span class="math-code">%</span>.<br>
+                    • <strong>Percentage to decimal:</strong> Divide the percentage by <span class="math-code">100</span> (move the decimal point two places left) and remove <span class="math-code">%</span>.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Datos ciudadanos):</strong> En una consulta juvenil participó una proporción de <span class="math-code">0.68</span> del censo estudiantil. ¿Qué porcentaje representa?<br>
+                        <em>Solución:</em> <span class="math-code">0.68 × 100 = 68%</span>.`,
+                        EN: `<strong>Example 1 (Civic participation):</strong> A proportion of <span class="math-code">0.68</span> of students voted in a youth consultation. What percentage is that?<br>
+                        <em>Solution:</em> <span class="math-code">0.68 × 100 = 68%</span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Porcentaje con decimales):</strong> Una tasa de interés mensual en una cuenta de ahorro infantil es <span class="math-code">1.25%</span>. Exprésala como número decimal.<br>
+                        <em>Solución:</em> <span class="math-code">1.25 ÷ 100 = 0.0125</span>.`,
+                        EN: `<strong>Example 2 (Decimal percentage):</strong> A monthly savings interest rate is <span class="math-code">1.25%</span>. Express it as a decimal.<br>
+                        <em>Solution:</em> <span class="math-code">1.25 ÷ 100 = 0.0125</span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (De fracción a decimal y porcentaje):</strong> En una galería, <span class="math-code">7</span> de cada <span class="math-code">20</span> pinturas son retratos. Exprésalo como decimal y porcentaje.<br>
+                        <em>Solución:</em> Fracción ${fracHTML('7', '20')} = <span class="math-code">7 ÷ 20 = 0.35</span>. En porcentaje: <span class="math-code">0.35 × 100 = 35%</span>.`,
+                        EN: `<strong>Example 3 (Fraction to decimal & percent):</strong> In a gallery, <span class="math-code">7</span> out of <span class="math-code">20</span> paintings are portraits. Express as decimal and percent.<br>
+                        <em>Solution:</em> Fraction ${fracHTML('7', '20')} = <span class="math-code">7 ÷ 20 = 0.35</span>. As percentage: <span class="math-code">0.35 × 100 = 35%</span>.`
+                    }
+                ]
+            },
+            {
+                id: 6,
+                title: { ES: "Tema 6: Problemas básicos con porcentajes", EN: "Topic 6: Basic percentage problems" },
+                content: {
+                    ES: `Para calcular el <strong>p% de una cantidad C</strong>, multiplicamos la cantidad por su equivalente decimal o fraccionario:<br>
+                    <span class="math-code">p% de C = ${fracHTML('p', '100')} × C</span>.<br>
+                    • <strong>Descuento:</strong> Se resta el valor del porcentaje al precio original.<br>
+                    • <strong>Aumento o impuesto (IVA):</strong> Se suma el valor del porcentaje al monto base.<br>
+                    • <strong>Porcentaje que representa una parte:</strong> <span class="math-code">(${fracHTML('Parte', 'Total')}) × 100%</span>.`,
+                    EN: `To find <strong>p% of a quantity C</strong>, multiply the quantity by its decimal or fractional equivalent:<br>
+                    <span class="math-code">p% of C = ${fracHTML('p', '100')} × C</span>.<br>
+                    • <strong>Discount:</strong> Subtract the percentage amount from the original price.<br>
+                    • <strong>Increase or tax:</strong> Add the percentage amount to the base amount.<br>
+                    • <strong>Percentage of a whole:</strong> <span class="math-code">(${fracHTML('Part', 'Whole')}) × 100%</span>.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Consumo responsable y descuento):</strong> Un libro ilustrado de historia universal cuesta <span class="math-code">$64 000</span> y tiene un descuento del <span class="math-code">25%</span> en la feria del libro. ¿Cuánto se paga al final?<br>
+                        <em>Solución:</em> Descuento: <span class="math-code">0.25 × 64 000 = $16 000</span>. Precio final: <span class="math-code">64 000 − 16 000 = $48 000</span>.`,
+                        EN: `<strong>Example 1 (Smart shopping discount):</strong> An illustrated world history book costs <span class="math-code">$64 000</span> with a <span class="math-code">25%</span> discount at the book fair. What is the final price?<br>
+                        <em>Solution:</em> Discount: <span class="math-code">0.25 × 64 000 = $16 000</span>. Final price: <span class="math-code">64 000 − 16 000 = $48 000</span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Análisis de encuesta ciudadana):</strong> De <span class="math-code">250</span> vecinos encuestados sobre la creación de una biblioteca comunitaria, <span class="math-code">215</span> votaron a favor. ¿Qué porcentaje apoyó la propuesta?<br>
+                        <em>Solución:</em> <span class="math-code">(215 ÷ 250) × 100% = 0.86 × 100% = 86%</span>.`,
+                        EN: `<strong>Example 2 (Civic poll analysis):</strong> Out of <span class="math-code">250</span> residents surveyed about building a community library, <span class="math-code">215</span> voted yes. What percentage supported it?<br>
+                        <em>Solution:</em> <span class="math-code">(215 ÷ 250) × 100% = 0.86 × 100% = 86%</span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (Recargo o impuesto):</strong> Una tableta digital para ilustración cuesta <span class="math-code">$400 000</span> antes de impuestos. Si se aplica un impuesto del <span class="math-code">19%</span>, ¿cuál es el precio total?<br>
+                        <em>Solución:</em> Impuesto: <span class="math-code">0.19 × 400 000 = $76 000</span>. Total a pagar: <span class="math-code">400 000 + 76 000 = $476 000</span>.`,
+                        EN: `<strong>Example 3 (Sales tax):</strong> A digital drawing tablet costs <span class="math-code">$400 000</span> before tax. If a <span class="math-code">19%</span> tax applies, what is the total price?<br>
+                        <em>Solution:</em> Tax: <span class="math-code">0.19 × 400 000 = $76 000</span>. Total: <span class="math-code">400 000 + 76 000 = $476 000</span>.`
+                    }
+                ]
+            },
+            {
+                id: 7,
+                title: { ES: "Tema 7: Áreas de figuras planas y áreas superficiales de cajas y prismas", EN: "Topic 7: Plane figure areas & surface areas of boxes and prisms" },
+                content: {
+                    ES: `<strong>Áreas de figuras planas (en unidades cuadradas):</strong><br>
+                    • <strong>Cuadrado:</strong> <span class="math-code">A = lado × lado = l<sup>2</sup></span> &nbsp;|&nbsp; <strong>Rectángulo:</strong> <span class="math-code">A = base × altura = b × h</span><br>
+                    • <strong>Triángulo:</strong> <span class="math-code">A = ${fracHTML('b × h', '2')}</span> &nbsp;|&nbsp; <strong>Rombo:</strong> <span class="math-code">A = ${fracHTML('D × d', '2')}</span> (diagonal mayor por menor entre 2)<br>
+                    • <strong>Círculo:</strong> <span class="math-code">A = π × r<sup>2</sup></span> (con <span class="math-code">π ≈ 3.14</span>)<br>
+                    <strong>Área superficial de una caja (prisma rectangular) de dimensiones l, a, h:</strong><br>
+                    Es la suma de las áreas de sus 6 caras rectangulares: <span class="math-code">A<sub>sup</sub> = 2 × (l × a + l × h + a × h)</span>. En un prisma recto general: <span class="math-code">A<sub>sup</sub> = 2 × A<sub>base</sub> + Perímetro<sub>base</sub> × altura</span>.`,
+                    EN: `<strong>Areas of plane figures (in square units):</strong><br>
+                    • <strong>Square:</strong> <span class="math-code">A = side<sup>2</sup> = l<sup>2</sup></span> &nbsp;|&nbsp; <strong>Rectangle:</strong> <span class="math-code">A = base × height = b × h</span><br>
+                    • <strong>Triangle:</strong> <span class="math-code">A = ${fracHTML('b × h', '2')}</span> &nbsp;|&nbsp; <strong>Rhombus:</strong> <span class="math-code">A = ${fracHTML('D × d', '2')}</span><br>
+                    • <strong>Circle:</strong> <span class="math-code">A = π × r<sup>2</sup></span> (with <span class="math-code">π ≈ 3.14</span>)<br>
+                    <strong>Surface area of a box (rectangular prism) with dimensions l, w, h:</strong><br>
+                    Sum of all 6 rectangular faces: <span class="math-code">A<sub>surf</sub> = 2 × (l × w + l × h + w × h)</span>. For any right prism: <span class="math-code">A<sub>surf</sub> = 2 × A<sub>base</sub> + Perimeter<sub>base</sub> × height</span>.`
+                },
+                examples: [
+                    {
+                        ES: `<strong>Ejemplo 1 (Vitral con rombo y triángulo):</strong> Un vitral con forma de rombo tiene diagonales de <span class="math-code">24 cm</span> y <span class="math-code">15 cm</span>. ¿Cuál es su área?<br>
+                        <em>Solución:</em> <span class="math-code">A = ${fracHTML('24 × 15', '2')} = ${fracHTML('360', '2')} = 180 cm<sup>2</sup></span>.`,
+                        EN: `<strong>Example 1 (Stained-glass rhombus):</strong> A rhombus stained-glass piece has diagonals of <span class="math-code">24 cm</span> and <span class="math-code">15 cm</span>. What is its area?<br>
+                        <em>Solution:</em> <span class="math-code">A = ${fracHTML('24 × 15', '2')} = ${fracHTML('360', '2')} = 180 cm<sup>2</sup></span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 2 (Medallón circular histórico):</strong> Un medallón antiguo circular tiene un radio de <span class="math-code">10 cm</span>. Usando <span class="math-code">π ≈ 3.14</span>, calcula su área.<br>
+                        <em>Solución:</em> <span class="math-code">A = 3.14 × 10<sup>2</sup> = 3.14 × 100 = 314 cm<sup>2</sup></span>.`,
+                        EN: `<strong>Example 2 (Historical circular medallion):</strong> An antique circular medallion has a radius of <span class="math-code">10 cm</span>. Using <span class="math-code">π ≈ 3.14</span>, find its area.<br>
+                        <em>Solution:</em> <span class="math-code">A = 3.14 × 10<sup>2</sup> = 3.14 × 100 = 314 cm<sup>2</sup></span>.`
+                    },
+                    {
+                        ES: `<strong>Ejemplo 3 (Área superficial de una caja para regalo):</strong> Sarah quiere forrar una caja de arte de <span class="math-code">20 cm</span> de largo, <span class="math-code">15 cm</span> de ancho y <span class="math-code">10 cm</span> de alto. ¿Cuánto papel necesita como mínimo?<br>
+                        <em>Solución:</em> <span class="math-code">A<sub>sup</sub> = 2 × (20×15 + 20×10 + 15×10) = 2 × (300 + 200 + 150) = 2 × 650 = 1 300 cm<sup>2</sup></span>.`,
+                        EN: `<strong>Example 3 (Surface area of a gift box):</strong> Sarah wants to wrap an art box measuring <span class="math-code">20 cm</span> long, <span class="math-code">15 cm</span> wide, and <span class="math-code">10 cm</span> high. What is the minimum wrapping paper area needed?<br>
+                        <em>Solution:</em> <span class="math-code">A<sub>surf</sub> = 2 × (20×15 + 20×10 + 15×10) = 2 × (300 + 200 + 150) = 2 × 650 = 1 300 cm<sup>2</sup></span>.`
+                    }
+                ]
+            }
+        ];
+
+        /* Formateador numérico con espacios limpios como separadores de miles */
+        function formatNumber(num) {
+            if (num === null || num === undefined) return '';
+            let n = parseFloat(num);
+            if (isNaN(n)) return num;
+            let parts = n.toString().split('.');
+            parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+            return parts.join('.');
+        }
+
+        /* ==========================================================================
+           3. NAVEGACIÓN Y CONFIGURACIÓN GLOBAL
+           ========================================================================== */
+        function toggleTheme() {
+            currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            localStorage.setItem('sarah_theme', currentTheme);
+            document.getElementById('themeToggleBtn').innerText = currentTheme === 'light' ? '🌙' : '☀️';
+            renderLab();
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ES' ? 'EN' : 'ES';
+            localStorage.setItem('sarah_lang', currentLang);
+            document.getElementById('langToggleBtn').innerText = currentLang === 'ES' ? '🌐 ES' : '🌐 EN';
+            updateI18nText();
+            renderGoals();
+            renderTheory();
+            renderLab();
+            generateQuiz();
+        }
+
+        function updateI18nText() {
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18n[currentLang][key]) {
+                    el.innerText = i18n[currentLang][key];
+                }
+            });
+        }
+
+        function switchTab(tabId, btnEl) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            if (btnEl) btnEl.classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+            
+            if (tabId === 'laboratorio') renderLab();
+            if (tabId === 'quiz') {
+                setTimeout(() => {
+                    Object.keys(canvasInstances).forEach(idx => syncCanvasResolution(idx));
+                }, 50);
+            }
+        }
+
+        function openTopicFromHome(topicId) {
+            const theoryBtn = document.getElementById('nav-teoria');
+            switchTab('teoria', theoryBtn);
+            const targetAcc = document.getElementById(`accordion-${topicId}`);
+            if (targetAcc) {
+                targetAcc.classList.add('active');
+                targetAcc.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        function renderGoals() {
+            const list = document.getElementById('goals-list');
+            list.innerHTML = goalsData[currentLang].map(g => `<li style="margin-bottom:0.45rem;">${g}</li>`).join('');
+        }
+
+        function renderTheory() {
+            const container = document.getElementById('accordion-container');
+            container.innerHTML = theoryData.map(item => `
+                <div class="accordion-item" id="accordion-${item.id}">
+                    <button class="accordion-header" onclick="toggleAccordion(${item.id})">
+                        <span>${item.title[currentLang]}</span>
+                        <span class="accordion-icon">▼</span>
+                    </button>
+                    <div class="accordion-body">
+                        <div>${item.content[currentLang]}</div>
+                        <div class="examples-grid">
+                            ${item.examples.map(ex => `
+                                <div class="example-box">
+                                    ${ex[currentLang]}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleAccordion(id) {
+            const item = document.getElementById(`accordion-${id}`);
+            item.classList.toggle('active');
+        }
+
+        /* ==========================================================================
+           4. LABORATORIO SVG INTERACTIVO (ÁREAS, PRISMAS Y FRACCIONES/DECIMALES/%)
+           ========================================================================== */
+        let labState = {
+            shape: 'triangle',
+            dim1: 12,
+            dim2: 8,
+            boxL: 10,
+            boxW: 6,
+            boxH: 4,
+            gridParts: 20,
+            shadedParts: 13
+        };
+
+        function setLabMode(mode) {
+            currentLabMode = mode;
+            renderLab();
+        }
+
+        function renderLab() {
+            const controls = document.getElementById('lab-controls');
+            const svg = document.getElementById('svg-lab-viewport');
+            const metrics = document.getElementById('lab-metrics');
+            svg.innerHTML = '';
+
+            const primaryColor = currentTheme === 'light' ? '#6a3de8' : '#8b5cf6';
+            const accentColor = currentTheme === 'light' ? '#2563eb' : '#3b82f6';
+            const textColor = currentTheme === 'light' ? '#241b35' : '#f3f0ff';
+
+            if (currentLabMode === 'plane_areas') {
+                controls.innerHTML = `
+                    <div class="control-group">
+                        <label>${currentLang === 'ES' ? 'Figura plana' : 'Plane figure'}:</label>
+                        <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+                            <button class="btn ${labState.shape === 'triangle' ? 'btn-primary' : ''}" onclick="labState.shape='triangle'; renderLab();">${currentLang === 'ES' ? 'Triángulo' : 'Triangle'}</button>
+                            <button class="btn ${labState.shape === 'rhombus' ? 'btn-primary' : ''}" onclick="labState.shape='rhombus'; renderLab();">${currentLang === 'ES' ? 'Rombo' : 'Rhombus'}</button>
+                            <button class="btn ${labState.shape === 'circle' ? 'btn-primary' : ''}" onclick="labState.shape='circle'; renderLab();">${currentLang === 'ES' ? 'Círculo' : 'Circle'}</button>
+                            <button class="btn ${labState.shape === 'rectangle' ? 'btn-primary' : ''}" onclick="labState.shape='rectangle'; renderLab();">${currentLang === 'ES' ? 'Rectángulo' : 'Rectangle'}</button>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label>${labState.shape === 'circle' ? (currentLang === 'ES' ? 'Radio (r)' : 'Radius (r)') : (labState.shape === 'rhombus' ? (currentLang === 'ES' ? 'Diagonal mayor (D)' : 'Major diagonal (D)') : (currentLang === 'ES' ? 'Base (b)' : 'Base (b)'))}: ${labState.dim1} cm</label>
+                        <input type="range" min="4" max="16" step="1" value="${labState.dim1}" oninput="labState.dim1 = parseInt(this.value); renderLab();">
+                    </div>
+                    ${labState.shape !== 'circle' ? `
+                    <div class="control-group">
+                        <label>${labState.shape === 'rhombus' ? (currentLang === 'ES' ? 'Diagonal menor (d)' : 'Minor diagonal (d)') : (currentLang === 'ES' ? 'Altura (h)' : 'Height (h)')}: ${labState.dim2} cm</label>
+                        <input type="range" min="4" max="14" step="1" value="${labState.dim2}" oninput="labState.dim2 = parseInt(this.value); renderLab();">
+                    </div>` : ''}
+                `;
+
+                const cx = 300, cy = 180, scale = 13;
+                if (labState.shape === 'triangle') {
+                    const w = labState.dim1 * scale;
+                    const h = labState.dim2 * scale;
+                    const x1 = cx - w / 2, y1 = cy + h / 2;
+                    const x2 = cx + w / 2, y2 = cy + h / 2;
+                    const x3 = cx, y3 = cy - h / 2;
+                    const area = (labState.dim1 * labState.dim2) / 2;
+
+                    svg.innerHTML = `
+                        <polygon points="${x1},${y1} ${x2},${y2} ${x3},${y3}" fill="rgba(106, 61, 232, 0.25)" stroke="${primaryColor}" stroke-width="3" />
+                        <line x1="${cx}" y1="${y3}" x2="${cx}" y2="${y1}" stroke="${accentColor}" stroke-width="2.5" stroke-dasharray="5" />
+                        <text x="${cx}" y="${y1 + 22}" fill="${textColor}" font-weight="700" font-size="14" text-anchor="middle">b = ${labState.dim1} cm</text>
+                        <text x="${cx + 12}" y="${cy + 4}" fill="${accentColor}" font-weight="700" font-size="14">h = ${labState.dim2} cm</text>
+                    `;
+                    metrics.innerHTML = `Área del Triángulo = (${labState.dim1} × ${labState.dim2}) ÷ 2 = <strong>${area} cm<sup>2</sup></strong>`;
+                } else if (labState.shape === 'rhombus') {
+                    const halfD = (labState.dim1 * scale) / 2;
+                    const halfd = (labState.dim2 * scale) / 2;
+                    const area = (labState.dim1 * labState.dim2) / 2;
+
+                    svg.innerHTML = `
+                        <polygon points="${cx},${cy - halfd} ${cx + halfD},${cy} ${cx},${cy + halfd} ${cx - halfD},${cy}" fill="rgba(37, 99, 235, 0.22)" stroke="${accentColor}" stroke-width="3" />
+                        <line x1="${cx - halfD}" y1="${cy}" x2="${cx + halfD}" y2="${cy}" stroke="${primaryColor}" stroke-width="2" stroke-dasharray="5" />
+                        <line x1="${cx}" y1="${cy - halfd}" x2="${cx}" y2="${cy + halfd}" stroke="${primaryColor}" stroke-width="2" stroke-dasharray="5" />
+                        <text x="${cx}" y="${cy + halfd + 24}" fill="${textColor}" font-weight="700" font-size="14" text-anchor="middle">D = ${labState.dim1} cm  |  d = ${labState.dim2} cm</text>
+                    `;
+                    metrics.innerHTML = `Área del Rombo = (${labState.dim1} × ${labState.dim2}) ÷ 2 = <strong>${area} cm<sup>2</sup></strong>`;
+                } else if (labState.shape === 'circle') {
+                    const rPx = labState.dim1 * 8;
+                    const area = (3.14 * labState.dim1 * labState.dim1).toFixed(2);
+
+                    svg.innerHTML = `
+                        <circle cx="${cx}" cy="${cy}" r="${rPx}" fill="rgba(106, 61, 232, 0.22)" stroke="${primaryColor}" stroke-width="3" />
+                        <line x1="${cx}" y1="${cy}" x2="${cx + rPx}" y2="${cy}" stroke="${accentColor}" stroke-width="3" />
+                        <circle cx="${cx}" cy="${cy}" r="4" fill="${accentColor}" />
+                        <text x="${cx + rPx / 2}" y="${cy - 10}" fill="${accentColor}" font-weight="700" font-size="14" text-anchor="middle">r = ${labState.dim1} cm</text>
+                    `;
+                    metrics.innerHTML = `Área del Círculo (π ≈ 3.14) = 3.14 × ${labState.dim1}<sup>2</sup> = <strong>${area} cm<sup>2</sup></strong>`;
+                } else {
+                    const w = labState.dim1 * scale;
+                    const h = labState.dim2 * scale;
+                    const area = labState.dim1 * labState.dim2;
+                    svg.innerHTML = `
+                        <rect x="${cx - w/2}" y="${cy - h/2}" width="${w}" height="${h}" fill="rgba(106, 61, 232, 0.22)" stroke="${primaryColor}" stroke-width="3" />
+                        <text x="${cx}" y="${cy + h/2 + 22}" fill="${textColor}" font-weight="700" font-size="14" text-anchor="middle">b = ${labState.dim1} cm</text>
+                        <text x="${cx + w/2 + 12}" y="${cy + 5}" fill="${accentColor}" font-weight="700" font-size="14">h = ${labState.dim2} cm</text>
+                    `;
+                    metrics.innerHTML = `Área del Rectángulo = ${labState.dim1} × ${labState.dim2} = <strong>${area} cm<sup>2</sup></strong>`;
+                }
+
+            } else if (currentLabMode === 'prism_surface') {
+                controls.innerHTML = `
+                    <div class="control-group">
+                        <label>${currentLang === 'ES' ? 'Largo (l)' : 'Length (l)'}: ${labState.boxL} cm</label>
+                        <input type="range" min="4" max="14" step="1" value="${labState.boxL}" oninput="labState.boxL = parseInt(this.value); renderLab();">
+                    </div>
+                    <div class="control-group">
+                        <label>${currentLang === 'ES' ? 'Ancho (a)' : 'Width (w)'}: ${labState.boxW} cm</label>
+                        <input type="range" min="3" max="10" step="1" value="${labState.boxW}" oninput="labState.boxW = parseInt(this.value); renderLab();">
+                    </div>
+                    <div class="control-group">
+                        <label>${currentLang === 'ES' ? 'Alto (h)' : 'Height (h)'}: ${labState.boxH} cm</label>
+                        <input type="range" min="2" max="9" step="1" value="${labState.boxH}" oninput="labState.boxH = parseInt(this.value); renderLab();">
+                    </div>
+                `;
+
+                const l = labState.boxL * 11;
+                const h = labState.boxH * 11;
+                const dx = labState.boxW * 6;
+                const dy = labState.boxW * 4;
+                const x0 = 210, y0 = 135;
+
+                const surfArea = 2 * (labState.boxL * labState.boxW + labState.boxL * labState.boxH + labState.boxW * labState.boxH);
+
+                svg.innerHTML = `
+                    <!-- Cara superior -->
+                    <polygon points="${x0},${y0} ${x0 + dx},${y0 - dy} ${x0 + l + dx},${y0 - dy} ${x0 + l},${y0}" fill="rgba(37, 99, 235, 0.32)" stroke="${accentColor}" stroke-width="2" />
+                    <!-- Cara frontal -->
+                    <rect x="${x0}" y="${y0}" width="${l}" height="${h}" fill="rgba(106, 61, 232, 0.28)" stroke="${primaryColor}" stroke-width="2.5" />
+                    <!-- Cara lateral derecha -->
+                    <polygon points="${x0 + l},${y0} ${x0 + l + dx},${y0 - dy} ${x0 + l + dx},${y0 + h - dy} ${x0 + l},${y0 + h}" fill="rgba(106, 61, 232, 0.45)" stroke="${primaryColor}" stroke-width="2" />
+                    <text x="${x0 + l / 2}" y="${y0 + h + 22}" fill="${textColor}" font-weight="700" font-size="13" text-anchor="middle">l = ${labState.boxL} cm</text>
+                    <text x="${x0 - 10}" y="${y0 + h / 2}" fill="${primaryColor}" font-weight="700" font-size="13" text-anchor="end">h = ${labState.boxH} cm</text>
+                    <text x="${x0 + l + dx + 8}" y="${y0 + h - dy / 2}" fill="${accentColor}" font-weight="700" font-size="13">a = ${labState.boxW} cm</text>
+                `;
+
+                metrics.innerHTML = `Área Superficial Total = 2 × (${labState.boxL}×${labState.boxW} + ${labState.boxL}×${labState.boxH} + ${labState.boxW}×${labState.boxH}) = <strong>${formatNumber(surfArea)} cm<sup>2</sup></strong>`;
+
+            } else if (currentLabMode === 'fraction_percent') {
+                controls.innerHTML = `
+                    <div class="control-group">
+                        <label>${currentLang === 'ES' ? 'Partes totales del mosaico' : 'Total mosaic tiles'}: ${labState.gridParts}</label>
+                        <input type="range" min="10" max="25" step="5" value="${labState.gridParts}" oninput="labState.gridParts = parseInt(this.value); if(labState.shadedParts > labState.gridParts) labState.shadedParts = labState.gridParts; renderLab();">
+                    </div>
+                    <div class="control-group">
+                        <label>${currentLang === 'ES' ? 'Partes coloreadas' : 'Shaded tiles'}: ${labState.shadedParts}</label>
+                        <input type="range" min="1" max="${labState.gridParts}" step="1" value="${labState.shadedParts}" oninput="labState.shadedParts = parseInt(this.value); renderLab();">
+                    </div>
+                `;
+
+                const cols = 5;
+                const rows = labState.gridParts / cols;
+                const tileW = 54, tileH = 42;
+                const startX = 165, startY = 60;
+                let tilesSvg = '';
+                let count = 0;
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        count++;
+                        const isShaded = count <= labState.shadedParts;
+                        const fill = isShaded ? (count % 2 === 0 ? primaryColor : accentColor) : 'rgba(148, 163, 184, 0.16)';
+                        tilesSvg += `<rect x="${startX + c * (tileW + 4)}" y="${startY + r * (tileH + 4)}" width="${tileW}" height="${tileH}" rx="6" fill="${fill}" stroke="${primaryColor}" stroke-width="1.5" />`;
+                    }
+                }
+
+                const decVal = (labState.shadedParts / labState.gridParts).toFixed(2);
+                const pctVal = Math.round((labState.shadedParts / labState.gridParts) * 100);
+
+                svg.innerHTML = `
+                    <text x="300" y="36" fill="${textColor}" font-weight="700" font-size="15" text-anchor="middle">${currentLang === 'ES' ? 'Mosaico Artístico de Equivalencias' : 'Artistic Equivalence Mosaic'}</text>
+                    ${tilesSvg}
+                `;
+
+                metrics.innerHTML = `${currentLang === 'ES' ? 'Fracción' : 'Fraction'}: <strong>${labState.shadedParts}/${labState.gridParts}</strong> &nbsp;|&nbsp; ${currentLang === 'ES' ? 'Decimal' : 'Decimal'}: <strong>${decVal}</strong> &nbsp;|&nbsp; ${currentLang === 'ES' ? 'Porcentaje' : 'Percentage'}: <strong>${pctVal}%</strong>`;
+            }
+        }
+
+        /* ==========================================================================
+           5. BANCO DE PROBLEMAS MULTI-MODELO (7 TEMAS)
+              - Sin sugerencias ni pistas sobre qué operaciones aplicar
+              - Arte, Historia, Educación Financiera, Análisis de Datos y Ciudadanía
+           ========================================================================== */
+        let quizData = [];
+        let canvasInstances = {};
+
+        function generateQuiz() {
+            quizData = [
+                generateTopic1Natural(),
+                generateTopic2Decimals(),
+                generateTopic3Fractions(),
+                generateTopic4FractionOfNumber(),
+                generateTopic5DecimalPercent(),
+                generateTopic6Percentages(),
+                generateTopic7AreasAndPrisms()
+            ];
+
+            const container = document.getElementById('quiz-container');
+            container.innerHTML = quizData.map((q, idx) => `
+                <div class="card quiz-card" id="quiz-card-${idx}">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.65rem; flex-wrap:wrap; gap:0.4rem;">
+                        <span class="badge">${q.topicName[currentLang]}</span>
+                        <span class="topic-tag">${q.contextTag[currentLang]}</span>
+                    </div>
+                    <div class="quiz-question">${q.question[currentLang]}</div>
+
+                    <div class="quiz-options">
+                        ${q.options.map((opt, oIdx) => `
+                            <button class="option-btn" onclick="checkAnswer(${idx}, ${oIdx})">${opt}</button>
+                        `).join('')}
+                    </div>
+                    <div class="feedback" id="feedback-${idx}"></div>
+
+                    <!-- Lienzo de Dibujo Vectorial Redimensionable por cada Pregunta -->
+                    <div class="sketchpad-container">
+                        <div class="sketchpad-toolbar">
+                            <button class="tool-btn active" onclick="setCanvasTool(${idx}, 'pencil', this)" title="${i18n[currentLang].sketch_pencil}">✏️ Pincel</button>
+                            <button class="tool-btn" onclick="setCanvasTool(${idx}, 'line', this)" title="${i18n[currentLang].sketch_line}">📏 Línea</button>
+                            <button class="tool-btn" onclick="setCanvasTool(${idx}, 'rect', this)" title="${i18n[currentLang].sketch_rect}">⬛ Rect</button>
+                            <button class="tool-btn" onclick="setCanvasTool(${idx}, 'eraser', this)" title="${i18n[currentLang].sketch_eraser}">🧹 Borrador</button>
+                            <input type="color" id="color-${idx}" value="#241b35" onchange="updateCanvasStyle(${idx})" style="width:28px; height:28px; border:none; cursor:pointer;">
+                            <input type="range" id="size-${idx}" min="1" max="15" value="3" onchange="updateCanvasStyle(${idx})" style="width:60px;">
+                            <button class="tool-btn" onclick="adjustCanvasHeight(${idx}, -60)" title="${currentLang === 'ES' ? 'Reducir altura' : 'Decrease height'}">➖</button>
+                            <button class="tool-btn" onclick="adjustCanvasHeight(${idx}, 60)" title="${currentLang === 'ES' ? 'Ampliar altura' : 'Increase height'}">➕</button>
+                            <button class="tool-btn" onclick="clearCanvas(${idx})" title="${i18n[currentLang].sketch_clear}">🗑️ Limpiar</button>
+                            <button class="tool-btn" onclick="copyCardScreenshot(${idx})" title="${i18n[currentLang].sketch_copy}" style="background-color:rgba(106,61,232,0.14); font-weight:600;">📋 Copiar Captura</button>
+                            <button class="tool-btn" onclick="downloadCardScreenshot(${idx})" title="${i18n[currentLang].sketch_download}" style="background-color:rgba(37,99,235,0.14); font-weight:600;">💾 Descargar Imagen</button>
+                        </div>
+                        <div class="canvas-resize-wrapper" id="canvas-wrapper-${idx}">
+                            <canvas id="sketchpad-${idx}" class="sketchpad"></canvas>
+                        </div>
+                        <div class="canvas-resize-handle" onpointerdown="startCanvasResize(event, ${idx})">
+                            ${i18n[currentLang].resize_label}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            setTimeout(() => {
+                quizData.forEach((_, idx) => initCanvas(idx));
+            }, 100);
+        }
+
+        // Tema 1: Números Naturales (Múltiples modelos: Historia del Arte / Finanzas Culturales)
+        function generateTopic1Natural() {
+            const model = Math.floor(Math.random() * 2);
+            if (model === 0) {
+                const startYear = [1452, 1503, 1605, 1789, 1810][Math.floor(Math.random() * 5)];
+                const duration = Math.floor(Math.random() * 45 + 38);
+                const endYear = startYear + duration;
+                const ansCorrect = currentLang === 'ES' ? `${duration} años` : `${duration} years`;
+                const options = shuffle([
+                    ansCorrect,
+                    currentLang === 'ES' ? `${duration + 10} años` : `${duration + 10} years`,
+                    currentLang === 'ES' ? `${duration - 8} años` : `${duration - 8} years`,
+                    currentLang === 'ES' ? `${duration + 12} años` : `${duration + 12} years`
+                ]);
+                return {
+                    topicName: { ES: "Tema 1: Números Naturales", EN: "Topic 1: Natural Numbers" },
+                    contextTag: { ES: "🏛️ Historia y Arte", EN: "🏛️ History & Art" },
+                    question: {
+                        ES: `Un manuscrito histórico registra que la construcción de un teatro antiguo inició en el año ${startYear} y su inauguración oficial ocurrió en ${endYear}. ¿Cuánto tiempo transcurrió entre ambos acontecimientos?`,
+                        EN: `A historical manuscript records that the construction of an ancient theater began in ${startYear} and its official opening took place in ${endYear}. How much time passed between both events?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else {
+                const budget = (Math.floor(Math.random() * 6 + 15)) * 10000;
+                const kits = Math.floor(Math.random() * 5 + 8);
+                const kitPrice = (Math.floor(Math.random() * 4 + 9)) * 1000;
+                const remaining = budget - kits * kitPrice;
+                const ansCorrect = `$${formatNumber(remaining)}`;
+                const options = shuffle([
+                    ansCorrect,
+                    `$${formatNumber(remaining + kitPrice)}`,
+                    `$${formatNumber(kits * kitPrice)}`,
+                    `$${formatNumber(remaining - 5000)}`
+                ]);
+                return {
+                    topicName: { ES: "Tema 1: Números Naturales", EN: "Topic 1: Natural Numbers" },
+                    contextTag: { ES: "💰 Educación Financiera", EN: "💰 Financial Literacy" },
+                    question: {
+                        ES: `El comité cultural de un colegio cuenta con $${formatNumber(budget)} para adquirir ${kits} cajas de óleos profesionales a $${formatNumber(kitPrice)} cada una. ¿Qué saldo queda disponible después de realizar la compra?`,
+                        EN: `A school cultural committee has $${formatNumber(budget)} to purchase ${kits} professional oil paint sets at $${formatNumber(kitPrice)} each. What balance remains after the purchase?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            }
+        }
+
+        // Tema 2: Números Decimales (Múltiples modelos: Datos ambientales / Taller artístico)
+        function generateTopic2Decimals() {
+            const model = Math.floor(Math.random() * 2);
+            if (model === 0) {
+                const totalKg = [16.8, 19.5, 22.4, 25.2][Math.floor(Math.random() * 4)];
+                const packSize = 0.35;
+                const packs = Math.round(totalKg / packSize);
+                const ansCorrect = currentLang === 'ES' ? `${packs} bolsas` : `${packs} bags`;
+                const options = shuffle([
+                    ansCorrect,
+                    currentLang === 'ES' ? `${packs + 6} bolsas` : `${packs + 6} bags`,
+                    currentLang === 'ES' ? `${packs - 8} bolsas` : `${packs - 8} bags`,
+                    currentLang === 'ES' ? `${Math.round(totalKg * 10)} bolsas` : `${Math.round(totalKg * 10)} bags`
+                ]);
+                return {
+                    topicName: { ES: "Tema 2: Números Decimales", EN: "Topic 2: Decimal Numbers" },
+                    contextTag: { ES: "🌍 Ciudadanía y Datos", EN: "🌍 Citizenship & Data" },
+                    question: {
+                        ES: `Durante una jornada ambiental barrial se recolectaron ${totalKg} kg de tapas plásticas para financiar un mural ecológico. Si todo el material se organiza en bolsas de ${packSize} kg cada una, ¿cuántas bolsas completas se obtienen?`,
+                        EN: `During a neighborhood environmental drive, ${totalKg} kg of plastic caps were collected to fund an eco-mural. If all material is packed into bags of ${packSize} kg each, how many full bags are obtained?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else {
+                const save1 = 34.75;
+                const save2 = 48.50;
+                const expense = [26.40, 31.85, 29.90][Math.floor(Math.random() * 3)];
+                const finalBal = (save1 + save2 - expense).toFixed(2);
+                const ansCorrect = `$${finalBal}`;
+                const options = shuffle([
+                    ansCorrect,
+                    `$${(save1 + save2).toFixed(2)}`,
+                    `$${(parseFloat(finalBal) + 4.50).toFixed(2)}`,
+                    `$${(parseFloat(finalBal) - 3.25).toFixed(2)}`
+                ]);
+                return {
+                    topicName: { ES: "Tema 2: Números Decimales", EN: "Topic 2: Decimal Numbers" },
+                    contextTag: { ES: "💰 Finanzas Personales", EN: "💰 Personal Finance" },
+                    question: {
+                        ES: `Para visitar una exposición de arte moderno, Sarah ahorró $${save1} el primer mes y $${save2} el segundo mes. Tras pagar $${expense} por la entrada y el catálogo oficial, ¿cuánto dinero conserva?`,
+                        EN: `To visit a modern art exhibition, Sarah saved $${save1} the first month and $${save2} the second month. After paying $${expense} for admission and the official catalog, how much money does she keep?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            }
+        }
+
+        // Tema 3: Operaciones con Fracciones (Múltiples modelos con notación apilada)
+        function generateTopic3Fractions() {
+            const model = Math.floor(Math.random() * 2);
+            if (model === 0) {
+                const scenarios = [
+                    { f1: [1, 4], f2: [2, 5], rem: [7, 20], d1: [13, 20], d2: [3, 9], d3: [2, 5] },
+                    { f1: [1, 3], f2: [1, 4], rem: [5, 12], d1: [7, 12], d2: [2, 7], d3: [1, 6] },
+                    { f1: [2, 5], f2: [1, 6], rem: [13, 30], d1: [17, 30], d2: [3, 11], d3: [7, 15] }
+                ];
+                const s = scenarios[Math.floor(Math.random() * scenarios.length)];
+                const ansCorrect = fracHTML(s.rem[0], s.rem[1]);
+                const options = shuffle([
+                    ansCorrect,
+                    fracHTML(s.d1[0], s.d1[1]),
+                    fracHTML(s.d2[0], s.d2[1]),
+                    fracHTML(s.d3[0], s.d3[1])
+                ]);
+                return {
+                    topicName: { ES: "Tema 3: Operaciones con Fracciones", EN: "Topic 3: Fraction Operations" },
+                    contextTag: { ES: "🎨 Muralismo Comunitario", EN: "🎨 Community Mural" },
+                    question: {
+                        ES: `En la restauración de un fresco histórico, un equipo completó ${fracHTML(s.f1[0], s.f1[1])} de la superficie la primera semana y ${fracHTML(s.f2[0], s.f2[1])} la segunda semana. ¿Qué fracción del fresco aún permanece pendiente?`,
+                        EN: `While restoring a historical fresco, a team completed ${fracHTML(s.f1[0], s.f1[1])} of the surface in the first week and ${fracHTML(s.f2[0], s.f2[1])} in the second week. What fraction of the fresco still remains unfinished?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else {
+                const totalNum = [9, 15, 21][Math.floor(Math.random() * 3)];
+                const bottles = totalNum / 3 * 2;
+                const ansCorrect = currentLang === 'ES' ? `${bottles} frascos` : `${bottles} jars`;
+                const options = shuffle([
+                    ansCorrect,
+                    currentLang === 'ES' ? `${bottles - 2} frascos` : `${bottles - 2} jars`,
+                    currentLang === 'ES' ? `${bottles + 3} frascos` : `${bottles + 3} jars`,
+                    currentLang === 'ES' ? `${totalNum} frascos` : `${totalNum} jars`
+                ]);
+                return {
+                    topicName: { ES: "Tema 3: Operaciones con Fracciones", EN: "Topic 3: Fraction Operations" },
+                    contextTag: { ES: "🖌️ Taller de Pigmentos", EN: "🖌️ Pigment Workshop" },
+                    question: {
+                        ES: `Un taller de grabado dispone de ${fracHTML(totalNum, 4)} litros de tinta natural y desea envasarla en recipientes de ${fracHTML(3, 8)} de litro cada uno. ¿Cuántos recipientes se pueden llenar por completo?`,
+                        EN: `A printmaking studio has ${fracHTML(totalNum, 4)} liters of natural ink and wants to store it in containers of ${fracHTML(3, 8)} liter each. How many containers can be completely filled?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            }
+        }
+
+        // Tema 4: Fracción de un Número (Múltiples modelos)
+        function generateTopic4FractionOfNumber() {
+            const totalItems = [360, 480, 600, 720][Math.floor(Math.random() * 4)];
+            const num = [3, 5, 7][Math.floor(Math.random() * 3)];
+            const den = 12;
+            const part = (totalItems / den) * num;
+            const ansCorrect = currentLang === 'ES' ? `${formatNumber(part)} piezas` : `${formatNumber(part)} pieces`;
+            const options = shuffle([
+                ansCorrect,
+                currentLang === 'ES' ? `${formatNumber(totalItems - part)} piezas` : `${formatNumber(totalItems - part)} pieces`,
+                currentLang === 'ES' ? `${formatNumber(totalItems / den)} piezas` : `${formatNumber(totalItems / den)} pieces`,
+                currentLang === 'ES' ? `${formatNumber(part + 40)} piezas` : `${formatNumber(part + 40)} pieces`
+            ]);
+            return {
+                topicName: { ES: "Tema 4: Fracción de un Número", EN: "Topic 4: Fraction of a Number" },
+                contextTag: { ES: "🏺 Archivo Arqueológico", EN: "🏺 Archaeological Archive" },
+                question: {
+                    ES: `El museo nacional custodia ${formatNumber(totalItems)} piezas precolombinas en su bóveda, de las cuales ${fracHTML(num, den)} corresponden a cerámica pintada. ¿Cuántas piezas de cerámica pintada hay en total?`,
+                    EN: `The national museum safeguards ${formatNumber(totalItems)} pre-Columbian artifacts in its vault, of which ${fracHTML(num, den)} are painted ceramics. How many painted ceramic pieces are there in total?`
+                },
+                correctIndex: options.indexOf(ansCorrect),
+                options
+            };
+        }
+
+        // Tema 5: Conversión Decimal-Porcentaje (Múltiples modelos)
+        function generateTopic5DecimalPercent() {
+            const model = Math.floor(Math.random() * 2);
+            if (model === 0) {
+                const dec = [0.42, 0.76, 0.84, 0.35, 0.64][Math.floor(Math.random() * 5)];
+                const pct = Math.round(dec * 100);
+                const ansCorrect = `${pct}%`;
+                const options = shuffle([
+                    ansCorrect,
+                    `${(dec * 10).toFixed(1)}%`,
+                    `${dec}%`,
+                    `${100 - pct}%`
+                ]);
+                return {
+                    topicName: { ES: "Tema 5: Decimal y Porcentaje", EN: "Topic 5: Decimal & Percentage" },
+                    contextTag: { ES: "📊 Análisis de Datos", EN: "📊 Data Analysis" },
+                    question: {
+                        ES: `Un informe sobre participación ciudadana señala que una proporción de ${dec} de los jóvenes inscritos asistió a la votación del presupuesto escolar. ¿Cuál es el porcentaje equivalente de participación?`,
+                        EN: `A civic participation report indicates that a proportion of ${dec} of registered youth voted on the school budget. What is the equivalent participation percentage?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else {
+                const pct = [1.5, 2.4, 3.8, 4.5][Math.floor(Math.random() * 4)];
+                const dec = (pct / 100).toFixed(3);
+                const ansCorrect = `${dec}`;
+                const options = shuffle([
+                    ansCorrect,
+                    `${(pct / 10).toFixed(2)}`,
+                    `${pct}`,
+                    `0.${Math.round(pct * 10)}`
+                ]);
+                return {
+                    topicName: { ES: "Tema 5: Decimal y Porcentaje", EN: "Topic 5: Decimal & Percentage" },
+                    contextTag: { ES: "💳 Indicadores Financieros", EN: "💳 Financial Indicators" },
+                    question: {
+                        ES: `Una cooperativa de ahorro juvenil ofrece un rendimiento anual del ${pct}%. ¿Cómo se expresa esa tasa en forma de número decimal?`,
+                        EN: `A youth savings cooperative offers an annual yield of ${pct}%. How is this rate expressed as a decimal number?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            }
+        }
+
+        // Tema 6: Problemas Básicos con Porcentajes (Múltiples modelos)
+        function generateTopic6Percentages() {
+            const model = Math.floor(Math.random() * 2);
+            if (model === 0) {
+                const price = [80000, 120000, 150000, 200000][Math.floor(Math.random() * 4)];
+                const discPct = [15, 20, 25, 30][Math.floor(Math.random() * 4)];
+                const finalPrice = price - (price * discPct) / 100;
+                const ansCorrect = `$${formatNumber(finalPrice)}`;
+                const options = shuffle([
+                    ansCorrect,
+                    `$${formatNumber((price * discPct) / 100)}`,
+                    `$${formatNumber(price + (price * discPct) / 100)}`,
+                    `$${formatNumber(finalPrice + 10000)}`
+                ]);
+                return {
+                    topicName: { ES: "Tema 6: Porcentajes Aplicados", EN: "Topic 6: Applied Percentages" },
+                    contextTag: { ES: "🛍️ Consumo Informado", EN: "🛍️ Informed Consumer" },
+                    question: {
+                        ES: `Una enciclopedia ilustrada de Historia Universal tiene un precio de etiqueta de $${formatNumber(price)}, pero durante la semana cultural cuenta con una rebaja del ${discPct}%. ¿Cuál es el valor final que debe pagarse?`,
+                        EN: `An illustrated encyclopedia of World History has a list price of $${formatNumber(price)}, but during Cultural Week it has a ${discPct}% discount. What is the final amount to pay?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else {
+                const totalVoters = [200, 250, 400, 500][Math.floor(Math.random() * 4)];
+                const pct = [65, 72, 78, 84][Math.floor(Math.random() * 4)];
+                const yesVotes = (totalVoters * pct) / 100;
+                const ansCorrect = `${pct}%`;
+                const options = shuffle([
+                    ansCorrect,
+                    `${100 - pct}%`,
+                    `${pct - 10}%`,
+                    `${yesVotes}%`
+                ]);
+                return {
+                    topicName: { ES: "Tema 6: Porcentajes Aplicados", EN: "Topic 6: Applied Percentages" },
+                    contextTag: { ES: "🗳️ Ciudadanía Crítica", EN: "🗳️ Critical Citizenship" },
+                    question: {
+                        ES: `En una encuesta realizada a ${totalVoters} habitantes de un municipio sobre la apertura gratuita de museos los domingos, ${yesVotes} personas manifestaron estar de acuerdo. ¿Qué porcentaje de los encuestados respaldó la iniciativa?`,
+                        EN: `In a survey of ${totalVoters} residents of a municipality regarding free museum admission on Sundays, ${yesVotes} people agreed. What percentage of respondents supported the initiative?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            }
+        }
+
+        // Tema 7: Áreas de Figuras Planas y Áreas Superficiales de Cajas y Prismas (Múltiples modelos)
+        function generateTopic7AreasAndPrisms() {
+            const model = Math.floor(Math.random() * 3);
+            if (model === 0) {
+                const D = [18, 20, 24, 28][Math.floor(Math.random() * 4)];
+                const d = [10, 12, 14, 16][Math.floor(Math.random() * 4)];
+                const area = (D * d) / 2;
+                const ansCorrect = `${area} cm<sup>2</sup>`;
+                const options = shuffle([
+                    ansCorrect,
+                    `${D * d} cm<sup>2</sup>`,
+                    `${D + d} cm<sup>2</sup>`,
+                    `${area + 24} cm<sup>2</sup>`
+                ]);
+                return {
+                    topicName: { ES: "Tema 7: Áreas Planas y Superficiales", EN: "Topic 7: Plane & Surface Areas" },
+                    contextTag: { ES: "🎨 Diseño Geométrico", EN: "🎨 Geometric Design" },
+                    question: {
+                        ES: `Para el diseño central de un vitral modernista, Sarah recorta una pieza en forma de rombo cuyas diagonales miden ${D} cm y ${d} cm. ¿Cuál es la superficie de dicha pieza?`,
+                        EN: `For the centerpiece of a modernist stained-glass window, Sarah cuts a rhombus-shaped piece whose diagonals measure ${D} cm and ${d} cm. What is the surface area of this piece?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else if (model === 1) {
+                const r = [5, 10, 20][Math.floor(Math.random() * 3)];
+                const area = 3.14 * r * r;
+                const ansCorrect = `${formatNumber(area)} cm<sup>2</sup>`;
+                const options = shuffle([
+                    ansCorrect,
+                    `${formatNumber(2 * 3.14 * r)} cm<sup>2</sup>`,
+                    `${formatNumber(3.14 * r)} cm<sup>2</sup>`,
+                    `${formatNumber(area * 2)} cm<sup>2</sup>`
+                ]);
+                return {
+                    topicName: { ES: "Tema 7: Áreas Planas y Superficiales", EN: "Topic 7: Plane & Surface Areas" },
+                    contextTag: { ES: "🏛️ Numismática Histórica", EN: "🏛️ Historical Numismatics" },
+                    question: {
+                        ES: `Una moneda conmemorativa circular exhibida en un museo tiene un radio de ${r} cm (considerando una réplica ampliada para estudio). Si se toma π ≈ 3.14, ¿cuál es el área de una de sus caras circulares?`,
+                        EN: `A circular commemorative coin displayed in a museum has a radius of ${r} cm (scaled study replica). Taking π ≈ 3.14, what is the area of one of its circular faces?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            } else {
+                const l = [15, 20, 25][Math.floor(Math.random() * 3)];
+                const w = [10, 12, 14][Math.floor(Math.random() * 3)];
+                const h = [6, 8, 10][Math.floor(Math.random() * 3)];
+                const surfArea = 2 * (l * w + l * h + w * h);
+                const ansCorrect = `${formatNumber(surfArea)} cm<sup>2</sup>`;
+                const options = shuffle([
+                    ansCorrect,
+                    `${formatNumber(l * w * h)} cm<sup>2</sup>`,
+                    `${formatNumber(l * w + l * h + w * h)} cm<sup>2</sup>`,
+                    `${formatNumber(surfArea + 120)} cm<sup>2</sup>`
+                ]);
+                return {
+                    topicName: { ES: "Tema 7: Áreas Planas y Superficiales", EN: "Topic 7: Plane & Surface Areas" },
+                    contextTag: { ES: "📦 Empaque Sostenible", EN: "📦 Sustainable Packaging" },
+                    question: {
+                        ES: `Para proteger una escultura pequeña durante su traslado a una galería, se construye una caja cerrada en forma de prisma rectangular de ${l} cm de largo, ${w} cm de ancho y ${h} cm de alto. ¿Cuál es el área superficial total de cartón empleada?`,
+                        EN: `To protect a small sculpture during transport to a gallery, a closed rectangular prism box is built measuring ${l} cm long, ${w} cm wide, and ${h} cm high. What is the total surface area of cardboard used?`
+                    },
+                    correctIndex: options.indexOf(ansCorrect),
+                    options
+                };
+            }
+        }
+
+        function shuffle(arr) {
+            return arr.sort(() => Math.random() - 0.5);
+        }
+
+        function checkAnswer(qIdx, optionIdx) {
+            const feedbackEl = document.getElementById(`feedback-${qIdx}`);
+            const q = quizData[qIdx];
+
+            if (optionIdx === q.correctIndex) {
+                feedbackEl.className = "feedback success";
+                feedbackEl.innerText = i18n[currentLang].correct_msg;
+            } else {
+                feedbackEl.className = "feedback error";
+                feedbackEl.innerText = i18n[currentLang].incorrect_msg;
+            }
+        }
+
+        /* ==========================================================================
+           6. LIENZO DE DIBUJO VECTORIAL CON BORRADOR PRECISO Y CAPTURA HTML2CANVAS
+           ========================================================================== */
+        function initCanvas(idx) {
+            const canvas = document.getElementById(`sketchpad-${idx}`);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width || 600;
+            canvas.height = rect.height || 240;
+
+            canvasInstances[idx] = {
+                canvas: canvas,
+                ctx: ctx,
+                tool: 'pencil',
+                color: document.getElementById(`color-${idx}`).value,
+                size: parseInt(document.getElementById(`size-${idx}`).value),
+                isDrawing: false,
+                startX: 0,
+                startY: 0,
+                strokes: [],
+                currentStroke: null
+            };
+
+            canvas.addEventListener('pointerdown', (e) => startDraw(e, idx));
+            canvas.addEventListener('pointermove', (e) => draw(e, idx));
+            canvas.addEventListener('pointerup', (e) => endDraw(e, idx));
+            canvas.addEventListener('pointerleave', (e) => endDraw(e, idx));
+        }
+
+        function syncCanvasResolution(idx) {
+            const inst = canvasInstances[idx];
+            if (!inst) return;
+            const rect = inst.canvas.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+                inst.canvas.width = rect.width;
+                inst.canvas.height = rect.height;
+                redrawCanvas(idx);
+            }
+        }
+
+        function adjustCanvasHeight(idx, delta) {
+            const wrapper = document.getElementById(`canvas-wrapper-${idx}`);
+            if (!wrapper) return;
+            const currentH = wrapper.getBoundingClientRect().height;
+            const nextH = Math.max(150, Math.min(750, currentH + delta));
+            wrapper.style.height = `${nextH}px`;
+            syncCanvasResolution(idx);
+        }
+
+        function startCanvasResize(e, idx) {
+            e.preventDefault();
+            const wrapper = document.getElementById(`canvas-wrapper-${idx}`);
+            if (!wrapper) return;
+            const startY = e.clientY;
+            const startHeight = wrapper.getBoundingClientRect().height;
+
+            const onPointerMove = (moveEvent) => {
+                const newHeight = Math.max(150, Math.min(750, startHeight + (moveEvent.clientY - startY)));
+                wrapper.style.height = `${newHeight}px`;
+                syncCanvasResolution(idx);
+            };
+
+            const onPointerUp = () => {
+                window.removeEventListener('pointermove', onPointerMove);
+                window.removeEventListener('pointerup', onPointerUp);
+            };
+
+            window.addEventListener('pointermove', onPointerMove);
+            window.addEventListener('pointerup', onPointerUp);
+        }
+
+        window.addEventListener('resize', () => {
+            Object.keys(canvasInstances).forEach(idx => syncCanvasResolution(idx));
+        });
+
+        function setCanvasTool(idx, tool, btnEl) {
+            canvasInstances[idx].tool = tool;
+            const toolbar = document.getElementById(`canvas-wrapper-${idx}`).previousElementSibling;
+            toolbar.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+        }
+
+        function updateCanvasStyle(idx) {
+            canvasInstances[idx].color = document.getElementById(`color-${idx}`).value;
+            canvasInstances[idx].size = parseInt(document.getElementById(`size-${idx}`).value);
+        }
+
+        function getPos(e, canvas) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            return {
+                x: (e.clientX - rect.left) * scaleX,
+                y: (e.clientY - rect.top) * scaleY
+            };
+        }
+
+        function startDraw(e, idx) {
+            const inst = canvasInstances[idx];
+            inst.isDrawing = true;
+            const pos = getPos(e, inst.canvas);
+            inst.startX = pos.x;
+            inst.startY = pos.y;
+
+            if (inst.tool === 'pencil') {
+                inst.currentStroke = {
+                    type: 'pencil',
+                    color: inst.color,
+                    size: inst.size,
+                    points: [{ x: pos.x, y: pos.y }]
+                };
+            } else if (inst.tool === 'eraser') {
+                eraseStrokeAt(idx, pos.x, pos.y);
+            }
+        }
+
+        function draw(e, idx) {
+            const inst = canvasInstances[idx];
+            if (!inst.isDrawing) return;
+            const pos = getPos(e, inst.canvas);
+
+            if (inst.tool === 'pencil') {
+                inst.currentStroke.points.push({ x: pos.x, y: pos.y });
+                redrawCanvas(idx);
+            } else if (inst.tool === 'line' || inst.tool === 'rect') {
+                redrawCanvas(idx);
+                inst.ctx.beginPath();
+                inst.ctx.strokeStyle = inst.color;
+                inst.ctx.lineWidth = inst.size;
+                if (inst.tool === 'line') {
+                    inst.ctx.moveTo(inst.startX, inst.startY);
+                    inst.ctx.lineTo(pos.x, pos.y);
+                } else if (inst.tool === 'rect') {
+                    inst.ctx.rect(inst.startX, inst.startY, pos.x - inst.startX, pos.y - inst.startY);
+                }
+                inst.ctx.stroke();
+            } else if (inst.tool === 'eraser') {
+                eraseStrokeAt(idx, pos.x, pos.y);
+            }
+        }
+
+        function endDraw(e, idx) {
+            const inst = canvasInstances[idx];
+            if (!inst.isDrawing) return;
+            inst.isDrawing = false;
+            const pos = getPos(e, inst.canvas);
+
+            if (inst.tool === 'pencil' && inst.currentStroke) {
+                inst.strokes.push(inst.currentStroke);
+                inst.currentStroke = null;
+            } else if (inst.tool === 'line') {
+                inst.strokes.push({
+                    type: 'line', color: inst.color, size: inst.size,
+                    x1: inst.startX, y1: inst.startY, x2: pos.x, y2: pos.y
+                });
+            } else if (inst.tool === 'rect') {
+                inst.strokes.push({
+                    type: 'rect', color: inst.color, size: inst.size,
+                    x1: inst.startX, y1: inst.startY, x2: pos.x, y2: pos.y
+                });
+            }
+            redrawCanvas(idx);
+        }
+
+        function redrawCanvas(idx) {
+            const inst = canvasInstances[idx];
+            inst.ctx.clearRect(0, 0, inst.canvas.width, inst.canvas.height);
+
+            const renderStroke = (s) => {
+                inst.ctx.beginPath();
+                inst.ctx.strokeStyle = s.color;
+                inst.ctx.lineWidth = s.size;
+                inst.ctx.lineCap = 'round';
+                inst.ctx.lineJoin = 'round';
+
+                if (s.type === 'pencil') {
+                    if (s.points.length === 1) {
+                        inst.ctx.arc(s.points[0].x, s.points[0].y, s.size / 2, 0, Math.PI * 2);
+                        inst.ctx.fillStyle = s.color;
+                        inst.ctx.fill();
+                        return;
+                    }
+                    if (s.points.length < 2) return;
+                    inst.ctx.moveTo(s.points[0].x, s.points[0].y);
+                    for (let i = 1; i < s.points.length; i++) {
+                        inst.ctx.lineTo(s.points[i].x, s.points[i].y);
+                    }
+                } else if (s.type === 'line') {
+                    inst.ctx.moveTo(s.x1, s.y1);
+                    inst.ctx.lineTo(s.x2, s.y2);
+                } else if (s.type === 'rect') {
+                    inst.ctx.rect(s.x1, s.y1, s.x2 - s.x1, s.y2 - s.y1);
+                }
+                inst.ctx.stroke();
+            };
+
+            inst.strokes.forEach(renderStroke);
+            if (inst.currentStroke) renderStroke(inst.currentStroke);
+        }
+
+        function eraseStrokeAt(idx, px, py) {
+            const inst = canvasInstances[idx];
+            const threshold = 14;
+            const p = { x: px, y: py };
+
+            inst.strokes = inst.strokes.filter(s => {
+                if (s.type === 'pencil') {
+                    if (s.points.length === 1) {
+                        return Math.hypot(s.points[0].x - px, s.points[0].y - py) > threshold;
+                    }
+                    for (let i = 0; i < s.points.length - 1; i++) {
+                        if (distToSegment(p, s.points[i], s.points[i + 1]) <= threshold) return false;
+                    }
+                    return true;
+                } else if (s.type === 'line') {
+                    return distToSegment(p, { x: s.x1, y: s.y1 }, { x: s.x2, y: s.y2 }) > threshold;
+                } else if (s.type === 'rect') {
+                    const p1 = { x: s.x1, y: s.y1 }, p2 = { x: s.x2, y: s.y1 };
+                    const p3 = { x: s.x2, y: s.y2 }, p4 = { x: s.x1, y: s.y2 };
+                    return Math.min(
+                        distToSegment(p, p1, p2), distToSegment(p, p2, p3),
+                        distToSegment(p, p3, p4), distToSegment(p, p4, p1)
+                    ) > threshold;
+                }
+                return true;
+            });
+            redrawCanvas(idx);
+        }
+
+        function distToSegment(p, v, w) {
+            const l2 = Math.pow(v.x - w.x, 2) + Math.pow(v.y - w.y, 2);
+            if (l2 === 0) return Math.hypot(p.x - v.x, p.y - v.y);
+            let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+            t = Math.max(0, Math.min(1, t));
+            return Math.hypot(p.x - (v.x + t * (w.x - v.x)), p.y - (v.y + t * (w.y - v.y)));
+        }
+
+        function clearCanvas(idx) {
+            canvasInstances[idx].strokes = [];
+            redrawCanvas(idx);
+        }
+
+        function copyCardScreenshot(idx) {
+            const cardElement = document.getElementById(`quiz-card-${idx}`);
+            html2canvas(cardElement, { scale: 2 }).then(canvas => {
+                canvas.toBlob(blob => {
+                    if (navigator.clipboard && navigator.clipboard.write) {
+                        navigator.clipboard.write([new ClipboardItem({ 'image/png': blob })]);
+                        alert(currentLang === 'ES' ? '¡Captura completa del ejercicio copiada al portapapeles!' : 'Full exercise shot copied to clipboard!');
+                    } else {
+                        alert(currentLang === 'ES' ? 'El navegador no soporta copiado directo. Usa Descargar Imagen.' : 'Direct copy unsupported. Use Download Image instead.');
+                    }
+                });
+            });
+        }
+
+        function downloadCardScreenshot(idx) {
+            const cardElement = document.getElementById(`quiz-card-${idx}`);
+            html2canvas(cardElement, { scale: 2 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Aventura_Matematica_Sarah_Grado6_Ejercicio_${idx + 1}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        /* ==========================================================================
+           7. INICIALIZACIÓN GENERAL
+           ========================================================================== */
+        window.addEventListener('DOMContentLoaded', () => {
+            if (currentTheme === 'dark') {
+                document.documentElement.setAttribute('data-theme', 'dark');
+                document.getElementById('themeToggleBtn').innerText = '☀️';
+            }
+            document.getElementById('langToggleBtn').innerText = currentLang === 'ES' ? '🌐 ES' : '🌐 EN';
+
+            updateI18nText();
+            renderGoals();
+            renderTheory();
+            generateQuiz();
+        });
+    </script>
+</body>
+</html>
